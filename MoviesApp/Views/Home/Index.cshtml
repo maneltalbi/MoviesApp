@@ -8,3 +8,81 @@
         <li><img src="~/images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
     </ul>
 </div>
+<br/>
+<br/>
+<div id="myTabContent" class="tab-content">
+    <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+        <div class="w3_agile_featured_movies">
+            
+            
+            
+            <div class="col-md-2 w3l-movie-gride-agile">
+                <a href="single.html" class="hvr-shutter-out-horizontal">
+                    <img src="images/m16.jpg" title="album-name" class="img-responsive" alt=" ">
+                    <div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+                </a>
+                <div class="mid-1 agileits_w3layouts_mid_1_home">
+                    <div class="w3l-movie-text">
+                        <h6><a href="single.html">Rezort</a></h6>
+                    </div>
+                    <div class="mid-2 agile_mid_2_home">
+                      
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="ribben">
+                    <p>NEW</p>
+                </div>
+            </div>
+            
+          
+        
+            <div class="ribben">
+                <p>NEW</p>
+            </div>
+        </div>
+        
+        <div class="clearfix"> </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    const API_KEY = 'api_key=e713d6b21cffe24a1f790d41f6e8f4a3';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+    const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+    getMovies(API_URL);
+    function getMovies(url) {
+        fetch(url).then(res => res.json).then(data => {
+            console.log(data.results)
+            showMovies(data.results);
+        })
+    }
+    function showMovies(data) {
+        data.forEach(movie => {
+            const movieE1 = document.createElement('div');
+            movieE1.classList.add('movie');
+            movieE1.innerHTML = '
+                < div class="col-md-2 w3l-movie-gride-agile" >
+                    <a href="single.html" class="hvr-shutter-out-horizontal">
+                        <img src="images/m16.jpg" title="album-name" class="img-responsive" alt=" ">
+                            <div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+                </a>
+                        <div class="mid-1 agileits_w3layouts_mid_1_home">
+                            <div class="w3l-movie-text">
+                                <h6><a href="single.html">Rezort</a></h6>
+                            </div>
+                            <div class="mid-2 agile_mid_2_home">
+
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="ribben">
+                            <p>NEW</p>
+                        </div> '
+        })
+    }
+</script>
