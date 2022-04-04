@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Models
 {
-    public class Result
+    public class ResultSeries
     {
         public bool adult { get; set; }
         public string backdrop_path { get; set; }
@@ -19,6 +19,7 @@ namespace MoviesApp.Models
         public int vote_count { get; set; }
         public string overview { get; set; }
         public string original_language { get; set; }
+       
 
 
 

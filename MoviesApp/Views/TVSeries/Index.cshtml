@@ -1,22 +1,24 @@
-﻿<div id="myTabContent" class="tab-content">
+﻿<br/>
+<br/>
+<div id="myTabContent" class="tab-content">
     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
         <div class="w3_agile_featured_movies">
-            @foreach (var movie in ViewBag.results)
+            @foreach (var serie in ViewBag.results)
             {
-                var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+                var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
 
                 <div class="col-md-2 w3l-movie-gride-agile">
-                    <a asp-action="Movies/Save" asp-controller="Movies" asp-route-id="@movie.id" class="hvr-shutter-out-horizontal">
+                    <a asp-action="Movies/Save" asp-controller="Movies" asp-route-id="@serie.id" class="hvr-shutter-out-horizontal">
                         <img src="@poster_Uri" title="album-name" class="img-responsive" alt=" ">
                         <div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
                     </a>
                     <div class="mid-1 agileits_w3layouts_mid_1_home">
                         <div class="w3l-movie-text">
-                            <h6><a href="single.html">@movie.original_title</a></h6>
+                            <h6><a href="single.html">@serie.original_name</a></h6>
                         </div>
                         <div class="mid-2 agile_mid_2_home">
-                            <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-success">Know More</a>
-                            <a asp-action="Create" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-success">Save Info</a>
+                            <a asp-action="Details" asp-controller="TVSeries" asp-route-id="@serie.id" class="btn btn-success">Know More</a>
+                            <a asp-action="Create" asp-controller="TVSeries" asp-route-id="@serie.id" class="btn btn-success">Save Info</a>
 
                             <div class="block-stars">
 
@@ -25,7 +27,7 @@
                         </div>
                     </div>
                     <div class="ribben">
-                        <p>@movie.vote_average</p>
+                        <p>@serie.vote_average</p>
                     </div>
                 </div>
             }

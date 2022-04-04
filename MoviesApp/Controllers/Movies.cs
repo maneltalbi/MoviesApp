@@ -32,7 +32,7 @@ namespace MoviesApp.Controllers
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
                 // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("discover/movie?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                 {
                     // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
@@ -64,7 +64,7 @@ namespace MoviesApp.Controllers
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
                 // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                using (var response = await httpClient.GetAsync("discover/movie?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                 {
                     // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
