@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Movies.Data;
+using MoviesApp.Data;
 
 namespace MoviesApp.Migrations
 {
@@ -18,14 +18,14 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Movies.Models.Movie", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Genre")
+                    b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Poster")
@@ -35,9 +35,6 @@ namespace MoviesApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("imdbRating")

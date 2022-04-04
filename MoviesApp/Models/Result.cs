@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movies.Models
+namespace MoviesApp.Models
 {
     public class Result
     {
@@ -18,7 +18,15 @@ namespace Movies.Models
         public bool video { get; set; }
         public double vote_average { get; set; }
         public int vote_count { get; set; }
+        public string overview { get; set; }
+        public int runtime { get; set; }
+        public string origin_country { get; set; }
+        public string original_language { get; set; }
+        public List<Genres> genres { get; set; }
+
+
+
     }
 
-   
+
 }

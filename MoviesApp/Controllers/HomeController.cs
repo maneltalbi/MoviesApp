@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Movies.Models;
 using MoviesApp.Models;
+
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

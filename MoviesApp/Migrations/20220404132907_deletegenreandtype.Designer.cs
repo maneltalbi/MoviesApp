@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesApp.Data;
 
-
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220402082039_addDB")]
-    partial class addDB
+    [Migration("20220404132907_deletegenreandtype")]
+    partial class deletegenreandtype
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,14 +20,14 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Movies.Models.Movie", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Genre")
+                    b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Poster")
@@ -38,9 +37,6 @@ namespace MoviesApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("imdbRating")

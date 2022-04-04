@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Movies.Models;
+using MoviesApp.Data;
+using MoviesApp.Models;
+
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,12 @@ namespace MoviesApp.Controllers
 {
     public class Movies : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+        public Movies(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         // GET: Movies
         public async Task<ActionResult> IndexAsync()
         {
@@ -56,7 +64,7 @@ namespace MoviesApp.Controllers
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
                 // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("discover/movie?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                 {
                     // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
@@ -64,9 +72,14 @@ namespace MoviesApp.Controllers
 
                     var model = JsonConvert.DeserializeObject<RootObject>(responseData);
                     ViewBag.results = model.results;
-                    foreach(var movie in model.results) { 
-                    if (movie.id == id)
+                    foreach(var movie in model.results) {
+                       
+                        if (movie.id == id)
                     {
+                            
+
+                            var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+                            ViewBag.poster = poster_Uri;
                             ViewBag.movie = movie;
 
                     }
@@ -78,24 +91,65 @@ namespace MoviesApp.Controllers
         }
 
         // GET: Movies/Create
-        public ActionResult Create()
+        public async Task<ActionResult> CreateAsync(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                {
+                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObject>(responseData);
+                    ViewBag.results = model.results;
+                    var moviegenre = "";
+                    foreach (var movie in model.results)
+                    {
+                        
+                        if (movie.id == id)
+                        {
+                            var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+                            
+                    
+
+                            
+                            ViewBag.poster = poster_Uri;
+                            ViewBag.movie = movie;
+                            ViewBag.moviegenre = moviegenre;
+
+                        }
+                    }
+                }
+            }
+
             return View();
         }
 
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes")] Movie movie)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(IndexAsync));
+                _context.Add(movie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(movie);
+            
         }
 
         // GET: Movies/Edit/5

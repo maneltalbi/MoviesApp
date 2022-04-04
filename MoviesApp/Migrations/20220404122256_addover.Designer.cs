@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesApp.Data;
 
-
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220402082039_addDB")]
-    partial class addDB
+    [Migration("20220404122256_addover")]
+    partial class addover
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +20,7 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Movies.Models.Movie", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -29,6 +28,9 @@ namespace MoviesApp.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Poster")
