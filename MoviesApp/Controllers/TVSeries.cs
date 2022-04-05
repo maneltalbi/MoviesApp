@@ -20,26 +20,53 @@ namespace MoviesApp.Controllers
             _context = context;
         }
         // GET: TVSeries
-        public async Task<ActionResult> IndexAsync()
+        public async Task<ActionResult> IndexAsync(string SearchText="")
         {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-            var baseAddress = new Uri("http://api.themoviedb.org/3/");
-
-            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            if (SearchText != "" && SearchText != null)
             {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-                // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("discover/tv?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                var baseAddress1 = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress1 })
                 {
-                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
-                    string responseData = await response.Content.ReadAsStringAsync();
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("search/tv?api_key=e713d6b21cffe24a1f790d41f6e8f4a3&query=" + SearchText))
+                    {
+                        string responseData = await response.Content.ReadAsStringAsync();
 
-                    var model = JsonConvert.DeserializeObject<RootObject1>(responseData);
-                    ViewBag.results = model.results;
+                        var model = JsonConvert.DeserializeObject<RootObject1>(responseData);
 
+                        ViewBag.results = model.results;
+                    }
+                }
+
+            }
+            else
+            {
+
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+                var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("discover/tv?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                    {
+                        // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                        string responseData = await response.Content.ReadAsStringAsync();
+
+                        var model = JsonConvert.DeserializeObject<RootObject1>(responseData);
+                        ViewBag.results = model.results;
+
+                    }
                 }
             }
             return View();
@@ -74,8 +101,6 @@ namespace MoviesApp.Controllers
 
                         if (serie.id == id)
                         {
-
-
                             var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
                             ViewBag.poster = poster_Uri;
                             ViewBag.serie = serie;
@@ -89,24 +114,58 @@ namespace MoviesApp.Controllers
         }
 
         // GET: TVSeries/Create
-        public ActionResult Create()
+        public async Task<ActionResult> CreateAsync(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("discover/tv?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                {
+                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObject1>(responseData);
+                    ViewBag.results = model.results;
+                    foreach (var serie in model.results)
+                    {
+
+                        if (serie.id == id)
+                        {
+                            var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
+                            ViewBag.poster = poster_Uri;
+                            ViewBag.serie = serie;
+
+                        }
+                    }
+
+                }
+            }
             return View();
         }
 
         // POST: TVSeries/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> CreateAsync([Bind("name,first_air_date,overview,poster_path,vote_average,vote_count")] Series serie)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(IndexAsync));
+                _context.Add(serie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(serie);
         }
 
         // GET: TVSeries/Edit/5

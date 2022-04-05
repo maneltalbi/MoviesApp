@@ -1,0 +1,27 @@
+﻿@model MoviesApp.Models.Series
+<div class="all-comments">
+    <div class="all-comments-info">
+        <a href="#">Serie</a>
+        <div class="agile-info-wthree-box">
+            <form asp-action="Create">
+                <label asp-for="name">Name:</label> <br />
+                <input asp-for="name" type="text" value="@ViewBag.serie.name"> <br />
+                <label asp-for="first_air_date" align="left">First Air Date:</label> <br />
+                <input asp-for="first_air_date" type="text" value="@ViewBag.serie.first_air_date"> <br /> <br />
+                <label asp-for="overview" align="left">Overview:</label> <br />
+                <input asp-for="overview" type="text" value="@ViewBag.serie.overview"> <br />
+                <label asp-for="vote_average" align="left">Vote Average:</label> <br />
+                <input asp-for="vote_average" type="text" value="@ViewBag.serie.vote_average"> <br /> <br />
+                <label asp-for="vote_count" align="left">Vote Count:</label> <br />
+                <input asp-for="vote_count" type="text" value="@ViewBag.serie.vote_count"> <br /> <br />
+                <label asp-for="poster_path" align="left">Poster:</label> <br />
+                <input asp-for="poster_path" type="text" value="@ViewBag.serie.poster_path"> <br /> <br />
+                <input type="submit" value="Save">
+
+                <a asp-action="Index" class="btn btn-inverse">Back to List</a>
+                <div class="clearfix"> </div>
+            </form>
+        </div>
+    </div>
+
+</div>

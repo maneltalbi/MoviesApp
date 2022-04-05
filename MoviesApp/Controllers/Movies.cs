@@ -21,29 +21,53 @@ namespace MoviesApp.Controllers
             _context = context;
         }
         // GET: Movies
-        public async Task<ActionResult> IndexAsync()
+        public async Task<ActionResult> IndexAsync(string SearchText="")
         {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-
-            var baseAddress = new Uri("http://api.themoviedb.org/3/");
-
-            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            if (SearchText != "" && SearchText != null)
             {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-                // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                var baseAddress1 = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress1 })
                 {
-                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
-                    string responseData = await response.Content.ReadAsStringAsync();
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("search/movie?api_key=e713d6b21cffe24a1f790d41f6e8f4a3&query=" + SearchText))
+                    {
+                        string responseData = await response.Content.ReadAsStringAsync();
 
-                    var model = JsonConvert.DeserializeObject<RootObject>(responseData);
-                    ViewBag.results = model.results;
+                        var model = JsonConvert.DeserializeObject<RootObject>(responseData);
 
+                        ViewBag.results = model.results;
+                    }
+                }
+
+            }
+            else
+            {
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+                var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                    {
+                        // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                        string responseData = await response.Content.ReadAsStringAsync();
+
+                        var model = JsonConvert.DeserializeObject<RootObject>(responseData);
+                        ViewBag.results = model.results;
+
+                    }
                 }
             }
-
            
             return View();
         }
@@ -150,6 +174,30 @@ namespace MoviesApp.Controllers
             }
             return View(movie);
             
+        }
+        // SearchMovie method
+
+        public async Task MovieSearch(string search)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("search/movie?api_key=941c...&query=" + search))
+                {
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObject>(responseData);
+
+                    ViewBag.result = model.results;
+                }
+            }
+           
         }
 
         // GET: Movies/Edit/5

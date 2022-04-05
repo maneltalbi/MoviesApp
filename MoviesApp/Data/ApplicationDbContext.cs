@@ -14,6 +14,7 @@ namespace MoviesApp.Data
 
         }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Series> Series { get; set; }
        // public DbSet<Result> Results { get; set; }
        // public DbSet<RootObject> RootObjects { get; set; }
 

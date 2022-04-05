@@ -1,4 +1,15 @@
-﻿<div id="myTabContent" class="tab-content">
+﻿
+<br />
+<br />
+<form asp-controller="Movies" asp-action="Index" align="center">
+    <input type="text" name="SearchText" placeholder="Search Movie">
+    <input type="submit" value="Search">
+</form>
+
+<br />
+<br />
+
+<div id="myTabContent" class="tab-content">
     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
         <div class="w3_agile_featured_movies">
             @foreach (var movie in ViewBag.results)
@@ -12,7 +23,7 @@
                     </a>
                     <div class="mid-1 agileits_w3layouts_mid_1_home">
                         <div class="w3l-movie-text">
-                            <h6><a href="single.html">@movie.original_title</a></h6>
+                            <h6><a href="Movies/Details">@movie.original_title</a></h6>
                         </div>
                         <div class="mid-2 agile_mid_2_home">
                             <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-success">Know More</a>
