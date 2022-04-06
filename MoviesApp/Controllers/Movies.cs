@@ -73,9 +73,40 @@ namespace MoviesApp.Controllers
         }
         public async Task<ActionResult> Genres(string YourProperty)
         {
-            string v = YourProperty;
+            var id = 0;
+            
             if (YourProperty != "" && YourProperty != null)
             {
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+                var baseAddress1 = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress1 })
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("genre/movie/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                    {
+                        // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                        string responseData = await response.Content.ReadAsStringAsync();
+                        var model = JsonConvert.DeserializeObject<listGenre>(responseData);
+
+                        ViewBag.res = model;
+                        foreach (var genre in model.genres)
+                        {
+                            if (genre.name == YourProperty)
+                            {
+                                 id = genre.id;
+                            }
+
+                        }
+                    }
+                }
+
+
+
                 //var selection = YourProperty;
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
@@ -86,7 +117,7 @@ namespace MoviesApp.Controllers
                     httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
                     // api_key can be requestred on TMDB website
-                    using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3&with_genres=" + YourProperty))
+                    using (var response = await httpClient.GetAsync("discover/movie?api_key=e713d6b21cffe24a1f790d41f6e8f4a3&with_genres=" + id))
                     {
                         // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
@@ -97,8 +128,8 @@ namespace MoviesApp.Controllers
 
                     }
                 }
-                
-            }
+
+            } 
             return View();
         }
 
