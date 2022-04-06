@@ -1,22 +1,7 @@
-﻿
-<br />
-<br />
-<form asp-controller="Movies" asp-action="Index" align="center">
-    <input type="text" name="SearchText" placeholder="Search Movie">
-    <input type="submit" value="Search">
-</form>
-<form asp-controller="Movies" asp-action="Genres" align="center">
-    <input type="text" name="YourProperty" placeholder="Search Genre">
-    <input type="submit" value="GO">
-</form>
-<br />
-<br />
-
-
-<div id="myTabContent" class="tab-content">
+﻿<div id="myTabContent" class="tab-content">
     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
         <div class="w3_agile_featured_movies">
-            @foreach (var movie in ViewBag.results)
+            @foreach (var movie in ViewBag.movies)
             {
                 var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
 

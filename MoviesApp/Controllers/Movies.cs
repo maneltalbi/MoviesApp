@@ -71,6 +71,37 @@ namespace MoviesApp.Controllers
            
             return View();
         }
+        public async Task<ActionResult> Genres(string YourProperty)
+        {
+            string v = YourProperty;
+            if (YourProperty != "" && YourProperty != null)
+            {
+                //var selection = YourProperty;
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+                var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+                using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                    // api_key can be requestred on TMDB website
+                    using (var response = await httpClient.GetAsync("discover/movie?sort_by=popularity.desc&api_key=e713d6b21cffe24a1f790d41f6e8f4a3&with_genres=" + YourProperty))
+                    {
+                        // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                        string responseData = await response.Content.ReadAsStringAsync();
+
+                        var model = JsonConvert.DeserializeObject<RootObject>(responseData);
+                        ViewBag.movies = model.results;
+
+                    }
+                }
+                
+            }
+            return View();
+        }
+
 
         // GET: Movies/Details/5
         public async Task<ActionResult> DetailsAsync(int? id)
