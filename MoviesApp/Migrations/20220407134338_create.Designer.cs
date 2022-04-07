@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesApp.Data;
 
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220407134338_create")]
+    partial class create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,7 +20,7 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MoviesApp.Models.Movies1", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -52,8 +54,8 @@ namespace MoviesApp.Migrations
                     b.Property<int>("imdbRating")
                         .HasColumnType("int");
 
-                    b.Property<int>("imdbVotes")
-                        .HasColumnType("int");
+                    b.Property<double>("imdbVotes")
+                        .HasColumnType("float");
 
                     b.Property<string>("original_language")
                         .HasColumnType("nvarchar(max)");
@@ -61,10 +63,10 @@ namespace MoviesApp.Migrations
                     b.Property<string>("original_title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("popularity")
-                        .HasColumnType("int");
+                    b.Property<double>("popularity")
+                        .HasColumnType("float");
 
-                    b.Property<string>("videos")
+                    b.Property<string>("video")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");

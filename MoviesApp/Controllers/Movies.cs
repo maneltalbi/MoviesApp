@@ -201,24 +201,73 @@ namespace MoviesApp.Controllers
                     var model = JsonConvert.DeserializeObject<RootObject>(responseData);
                     ViewBag.results = model.results;
                     var moviegenre = "";
+                    var poster_Uri = "";
+                   
+                    var backdrop_path = "";
                     foreach (var movie in model.results)
                     {
-                        
+
                         if (movie.id == id)
                         {
-                            var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
-                            
-                    
+                            using (var response2 = await httpClient.GetAsync("movie/" + id + "/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseData2 = await response2.Content.ReadAsStringAsync();
+                                var model2 = JsonConvert.DeserializeObject<listVideos>(responseData2);
+                                ViewBag.videos = model2.results;
+                                foreach (var video in model2.results)
+                                {
+                                    var videolink = "https://www.youtube.com/embed/" + video.key;
+                                    ViewBag.videolink = videolink;
+                                }
+                                }
+
+                            poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+                            backdrop_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.backdrop_path);
+                            foreach (var genreID in movie.genre_ids)
+                            {
+
+                                using (var response1 = await httpClient.GetAsync("genre/movie/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                                {
+                                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                    string responseData1 = await response1.Content.ReadAsStringAsync();
+                                    var model1 = JsonConvert.DeserializeObject<listGenre>(responseData1);
+
+                                    ViewBag.res = model1;
+                                    foreach (var genre in model1.genres)
+                                    {
+                                        if (genre.id == genreID)
+                                        {
+                                            if (moviegenre == "")
+                                            {
+                                                moviegenre = genre.name;
+                                            }
+                                            else
+                                            {
+                                                moviegenre = moviegenre + "," + genre.name;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+
+
+
 
                             
                             ViewBag.poster = poster_Uri;
+                            ViewBag.backdrop_path = backdrop_path;
                             ViewBag.movie = movie;
                             ViewBag.moviegenre = moviegenre;
-
+                        }
                         }
                     }
                 }
-            }
+            
 
             return View();
         }
@@ -226,7 +275,7 @@ namespace MoviesApp.Controllers
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes")] Movie movie)
+        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes,genres,idMovie,backdrop_path,adult,original_language,original_title,popularity,videos")] Movies1 movie)
         {
             if (ModelState.IsValid)
             {
