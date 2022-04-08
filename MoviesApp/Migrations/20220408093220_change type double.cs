@@ -2,44 +2,44 @@
 
 namespace MoviesApp.Migrations
 {
-    public partial class nn : Migration
+    public partial class changetypedouble : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AlterColumn<double>(
                 name: "popularity",
                 table: "Movies",
-                type: "int",
+                type: "float",
                 nullable: false,
-                oldClrType: typeof(double),
-                oldType: "float");
+                oldClrType: typeof(int),
+                oldType: "int");
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AlterColumn<double>(
                 name: "imdbVotes",
                 table: "Movies",
-                type: "int",
+                type: "float",
                 nullable: false,
-                oldClrType: typeof(double),
-                oldType: "float");
+                oldClrType: typeof(int),
+                oldType: "int");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<double>(
+            migrationBuilder.AlterColumn<int>(
                 name: "popularity",
                 table: "Movies",
-                type: "float",
+                type: "int",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                oldClrType: typeof(double),
+                oldType: "float");
 
-            migrationBuilder.AlterColumn<double>(
+            migrationBuilder.AlterColumn<int>(
                 name: "imdbVotes",
                 table: "Movies",
-                type: "float",
+                type: "int",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                oldClrType: typeof(double),
+                oldType: "float");
         }
     }
 }

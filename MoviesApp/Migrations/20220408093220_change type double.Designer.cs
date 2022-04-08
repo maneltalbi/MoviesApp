@@ -9,8 +9,8 @@ using MoviesApp.Data;
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220407101253_addrow")]
-    partial class addrow
+    [Migration("20220408093220_change type double")]
+    partial class changetypedouble
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movies", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -39,8 +39,8 @@ namespace MoviesApp.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("adult")
-                        .HasColumnType("bit");
+                    b.Property<string>("adult")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("backdrop_path")
                         .HasColumnType("nvarchar(max)");
@@ -51,8 +51,8 @@ namespace MoviesApp.Migrations
                     b.Property<int>("idMovie")
                         .HasColumnType("int");
 
-                    b.Property<double>("imdbRating")
-                        .HasColumnType("float");
+                    b.Property<int>("imdbRating")
+                        .HasColumnType("int");
 
                     b.Property<double>("imdbVotes")
                         .HasColumnType("float");
@@ -63,11 +63,11 @@ namespace MoviesApp.Migrations
                     b.Property<string>("original_title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("popularity")
-                        .HasColumnType("int");
+                    b.Property<double>("popularity")
+                        .HasColumnType("float");
 
-                    b.Property<bool>("video")
-                        .HasColumnType("bit");
+                    b.Property<string>("videos")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 

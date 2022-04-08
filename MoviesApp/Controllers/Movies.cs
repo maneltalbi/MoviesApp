@@ -275,7 +275,7 @@ namespace MoviesApp.Controllers
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes,genres,idMovie,backdrop_path,adult,original_language,original_title,popularity,videos")] Movies1 movie)
+        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes,genres,idMovie,backdrop_path,adult,original_language,original_title,popularity,videos")] Models.Movies movie)
         {
             if (ModelState.IsValid)
             {

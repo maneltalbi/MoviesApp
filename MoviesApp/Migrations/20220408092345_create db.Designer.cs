@@ -9,8 +9,8 @@ using MoviesApp.Data;
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220407120307_double pop")]
-    partial class doublepop
+    [Migration("20220408092345_create db")]
+    partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace MoviesApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MoviesApp.Models.Movie", b =>
+            modelBuilder.Entity("MoviesApp.Models.Movies", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -51,11 +51,11 @@ namespace MoviesApp.Migrations
                     b.Property<int>("idMovie")
                         .HasColumnType("int");
 
-                    b.Property<double>("imdbRating")
-                        .HasColumnType("float");
+                    b.Property<int>("imdbRating")
+                        .HasColumnType("int");
 
-                    b.Property<double>("imdbVotes")
-                        .HasColumnType("float");
+                    b.Property<int>("imdbVotes")
+                        .HasColumnType("int");
 
                     b.Property<string>("original_language")
                         .HasColumnType("nvarchar(max)");
@@ -63,10 +63,10 @@ namespace MoviesApp.Migrations
                     b.Property<string>("original_title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("popularity")
-                        .HasColumnType("float");
+                    b.Property<int>("popularity")
+                        .HasColumnType("int");
 
-                    b.Property<string>("video")
+                    b.Property<string>("videos")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");

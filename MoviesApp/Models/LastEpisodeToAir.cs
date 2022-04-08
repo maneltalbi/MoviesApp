@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Models
 {
-    public class Genres
+    public class LastEpisodeToAir
     {
         [Key]
         public int id { get; set; }
-        public string name { get; set; }
+        public int idLastEpisode { get; set; }
+        public string air_date { get; set; }
+        public int episode_number { get; set; }
 
     }
 }

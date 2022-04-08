@@ -13,8 +13,18 @@ namespace MoviesApp.Data
         {
 
         }
-        public DbSet<Movies1> Movies { get; set; }
+        public DbSet<Movies> Movies { get; set; }
         public DbSet<Series> Series { get; set; }
-       
+        public DbSet<Createurs> Createurs { get; set; }
+        public DbSet<LastEpisodeToAir> LastEpisodeToAir { get; set; }
+        public DbSet<Genres> Genres { get; set; }
+        public DbSet<Networks> Networks { get; set; }
+        public DbSet<ProductionCompanies> ProductionCompanies { get; set; }
+        public DbSet<Productioncountries> Productioncountries { get; set; }
+        public DbSet<Seasons> Seasons { get; set; }
+        public DbSet<SpokenLanguages> SpokenLanguages { get; set; }
+
+
+
     }
 }
