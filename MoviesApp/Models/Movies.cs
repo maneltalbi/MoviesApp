@@ -13,7 +13,6 @@ namespace MoviesApp.Models
         public string adult { get; set; }
         public string backdrop_path { get; set; }
         public int idMovie { get; set; }
-        public string genres { get; set; }
         public string original_title { get; set; }
         public string Poster { get; set; }
         public double popularity { get; set; }
@@ -24,6 +23,7 @@ namespace MoviesApp.Models
         public string videos { get; set; }
         public string Overview { get; set; }
         public string original_language { get; set; }
+
 
 
     }

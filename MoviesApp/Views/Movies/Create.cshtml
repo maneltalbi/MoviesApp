@@ -13,17 +13,17 @@
                                     <label asp-for="popularity" align="left">Popularity:</label> <br />
                                     <input asp-for="popularity" type="text" value="@ViewBag.movie.popularity"> <br />
                                     <label asp-for="videos" align="left">Video:</label> <br />
-                                    
+
                                     <input asp-for="videos" type="text" value="@ViewBag.videolink"> <br /> <br />
-                                   
+
                                     <label asp-for="imdbRating" align="left">Vote Average:</label> <br />
                                     <input asp-for="imdbRating" type="text" value="@ViewBag.movie.vote_count"> <br />
                                     <label asp-for="imdbVotes" align="left">Vote Count:</label> <br />
                                     <input asp-for="imdbVotes" type="text" value="@ViewBag.movie.vote_count"> <br />
                                     <label asp-for="Poster" align="left">Poster:</label> <br />
                                     <input asp-for="Poster" type="text" value="@ViewBag.poster"> <br />
-                                    <label asp-for="genres" align="left">Genre:</label> <br />
-                                    <input asp-for="genres" type="text" value="@ViewBag.moviegenre"> <br />
+                                    @*<label asp-for="genres" align="left">Genre:</label> <br />
+        <input asp-for="genres" type="text" value="@ViewBag.moviegenre"> <br />*@
                                     <label asp-for="idMovie" align="left">ID:</label> <br />
                                     <input asp-for="idMovie" type="text" value="@ViewBag.movie.id"> <br />
                                     <label asp-for="backdrop_path" align="left">Backdrop Path:</label> <br />

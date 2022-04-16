@@ -8,7 +8,7 @@ namespace MoviesApp.Models
     public class RootObject1
     {
         public int page { get; set; }
-         public List<Series> results { get; set; }
+         public List<ListSeries> results { get; set; }
 
         public int total_pages { get; set; }
         public int total_results { get; set; }

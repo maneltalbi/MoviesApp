@@ -3,9 +3,12 @@
     <div class="all-comments-info">
         <a href="#">Serie</a>
         <div class="agile-info-wthree-box">
-            <form asp-action="Create">
+            @using (Html.BeginForm("Create", "TVSeries", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
                 <label asp-for="name">Name:</label> <br />
                 <input asp-for="name" type="text" value="@ViewBag.serie.name"> <br />
+                <label asp-for="idSerie" align="left">ID Serie:</label> <br />
+                <input asp-for="idSerie" type="text" value="@ViewBag.serie.id"> <br /> <br />
                 <label asp-for="first_air_date" align="left">First Air Date:</label> <br />
                 <input asp-for="first_air_date" type="text" value="@ViewBag.serie.first_air_date"> <br /> <br />
                 <label asp-for="overview" align="left">Overview:</label> <br />
@@ -20,7 +23,7 @@
 
                 <a asp-action="Index" class="btn btn-inverse">Back to List</a>
                 <div class="clearfix"> </div>
-            </form>
+            }
         </div>
     </div>
 

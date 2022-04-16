@@ -119,8 +119,134 @@ namespace MoviesApp.Controllers
 
 
 
-        // GET: TVSeries/Create
-        public async Task<ActionResult> CreateAsync(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAsync([Bind("name,idSerie,first_air_date,overview,poster_path,vote_average,vote_count")] Series serie1)
+        {
+           
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("discover/tv?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                {
+                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObject1>(responseData);
+                    var poster_path = "";
+
+                    var backdrop_path = "";
+                    ViewBag.results = model.results;
+                    foreach (var serie in model.results)
+                    {
+
+                        if (serie.id == serie1.idSerie)
+                        {
+                             poster_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
+                            backdrop_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.backdrop_path);
+
+                            ViewBag.poster = poster_path;
+                            ViewBag.serie = serie;
+                          /*  using (var responseep = await httpClient.GetAsync("tv/" + serie1.idSerie + "/episode_groups?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseDataep = await responseep.Content.ReadAsStringAsync();
+
+                                var modelv = JsonConvert.DeserializeObject<listVideos>(responseDataep);
+                                foreach(var video in modelv.results)
+                                {
+                                    VideosSeries vidser = new VideosSeries();
+
+                                    video.id.ToString();
+                                    video.key.ToString();
+                                    video.name.ToString();
+                                    video.published_at.ToString();
+                                    video.site.ToString();
+                                    video.size.ToString();
+                                    video.type.ToString();
+                                    _context.Videos.Add(video);
+
+                                    _context.SaveChanges();
+
+                                    vidser.idSerie = serie1.idSerie;
+                                    vidser.idVideo = video.id.ToString();
+                                    _context.VideosSeries.Add(vidser);
+
+                                    _context.SaveChanges();
+
+                                }
+                               
+                            }*/
+                                using (var responsev = await httpClient.GetAsync("tv/"+serie1.idSerie+"/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseDatav = await responsev.Content.ReadAsStringAsync();
+
+                                var modelv = JsonConvert.DeserializeObject<listVideos>(responseDatav);
+                              //  _context.Series.Add(serie);
+                                //_context.SaveChanges();
+                              
+                                foreach (var video in modelv.results)
+                                {
+                                    VideosSeries vidser = new VideosSeries();
+
+                                    video.id.ToString();
+                                    video.name.ToString();
+                                    video.published_at.ToString();
+                                    video.site.ToString();
+                                    video.size.ToString();
+                                    video.type.ToString();
+                                    video.key.ToString();
+                                    _context.Videos.Add(video);
+                                    _context.SaveChanges();
+                                    vidser.idSerie = serie1.idSerie;
+                                    vidser.idVideo = video.id.ToString();
+                                    _context.VideosSeries.Add(vidser);
+
+                                    _context.SaveChanges();
+
+                                }
+                            }
+                            var origin_country = "";
+                            foreach(var country in serie.origin_country)
+                            {
+                                origin_country = origin_country + serie.origin_country;
+                            }
+                            var original_language = "";
+                            foreach (var lng in serie.original_language)
+                            {
+                                if (original_language == "")
+                                {
+                                    original_language = serie.original_language;
+                                }
+                                else
+                                {
+                                    original_language = original_language + "," + serie.original_language;
+                                }
+                                original_language = original_language + serie.original_language;
+                            }
+                          //  _context.Series.Add(serie);
+                            //_context.SaveChanges();
+
+                        }
+                    }
+
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CreateAsync(int?id)
         {
             if (id == null)
             {
@@ -151,16 +277,12 @@ namespace MoviesApp.Controllers
 
                         if (serie.id == id)
                         {
-                             poster_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
+                            poster_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
                             backdrop_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.backdrop_path);
 
                             ViewBag.poster = poster_path;
                             ViewBag.serie = serie;
-                            InsertSerie(serie.name, serie.poster_path, serie.first_air_date, serie.vote_average, serie.vote_count, serie.overview, serie.backdrop_path, serie.homepage, serie.id, serie.in_production,
-            serie.languages, serie.last_air_date, serie.number_of_episodes, serie.number_of_seasons, serie.origin_country, serie.origin_language,
-             serie.origin_name, serie.popularity, serie.status, serie.tagline, serie.type);
-
-
+                            
 
                         }
                     }
@@ -168,106 +290,6 @@ namespace MoviesApp.Controllers
                 }
             }
             return View();
-        }
-        private void InsertGenre(string name,int Seriesid)
-        {
-            SqlConnection con = new SqlConnection("Server=.;Database=MoviesApp;Trusted_Connection=True;MultipleActiveResultSets=true");
-            using (con)
-            {
-                string query = "INSERT INTO Genres VALUES(@name,@Seriesid)";
-
-
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@Seriesid", Seriesid);
-
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-        }
-        private void InsertSeasons(int idSeason, string air_date, string episode_count, string name, string overview, string poster_path, int season_number)
-        {
-            SqlConnection con = new SqlConnection("Server=.;Database=MoviesApp;Trusted_Connection=True;MultipleActiveResultSets=true");
-            using (con)
-            {
-                string query = "INSERT INTO Series VALUES(@idSeason,@air_date,@episode_count,@name,@overview,@poster_path,@season_number)";
-
-
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@idSeason", idSeason);
-                    cmd.Parameters.AddWithValue("@air_date", air_date);
-                    cmd.Parameters.AddWithValue("@episode_count", episode_count);
-                    cmd.Parameters.AddWithValue("@overview", overview);
-                    cmd.Parameters.AddWithValue("@poster_path", poster_path);
-                    cmd.Parameters.AddWithValue("@season_number", season_number);
-                    
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-        }
-        private void InsertSerie(string name, string poster_path,string first_air_date,double vote_average,int vote_count,string overview,string backdrop_path, string homepage, int idSerie, string in_production, 
-            string languages, string last_air_date,int number_of_episodes,int number_of_seasons,string origin_country,string origin_language,
-            string origin_name,double popularity,string status,string tagline,string type)
-        {
-            SqlConnection con = new SqlConnection("Server=.;Database=MoviesApp;Trusted_Connection=True;MultipleActiveResultSets=true");
-            using (con)
-            {
-                string query = "INSERT INTO Series VALUES(@name,@poster_path,@first_air_date,@vote_average,@vote_count," +
-                    "@overview,@backdrop_path,@homepage,@idSerie,@in_production,@languages,@last_air_date," +
-                    "@number_of_episodes,@number_of_seasons,@origin_country,@origin_language,@origin_name,@popularity,@status,@tagline,@type)";
-                
-      
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@poster_path", poster_path);
-                    cmd.Parameters.AddWithValue("@first_air_date", first_air_date);
-                    cmd.Parameters.AddWithValue("@vote_average", vote_average);
-                    cmd.Parameters.AddWithValue("@vote_count", vote_count);
-                    cmd.Parameters.AddWithValue("@overview", overview);
-                    cmd.Parameters.AddWithValue("@backdrop_path", backdrop_path);
-                    cmd.Parameters.AddWithValue("@homepage", homepage);
-                    cmd.Parameters.AddWithValue("@idSerie", idSerie);
-                    cmd.Parameters.AddWithValue("@in_production", in_production);
-                    cmd.Parameters.AddWithValue("@languages", languages);
-                    cmd.Parameters.AddWithValue("@last_air_date", last_air_date);
-                    cmd.Parameters.AddWithValue("@number_of_episodes", number_of_episodes);
-                    cmd.Parameters.AddWithValue("@number_of_seasons", number_of_seasons);
-                    cmd.Parameters.AddWithValue("@origin_country", origin_country);
-                    cmd.Parameters.AddWithValue("@origin_language", origin_language);
-                    cmd.Parameters.AddWithValue("@origin_name", origin_name);
-                    cmd.Parameters.AddWithValue("@popularity", popularity);
-                    cmd.Parameters.AddWithValue("@status", status);
-                    cmd.Parameters.AddWithValue("@tagline", tagline);
-                    cmd.Parameters.AddWithValue("@type", type);
-                    
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-        }
-        // POST: TVSeries/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind("name,first_air_date,overview,poster_path,vote_average,vote_count")] Series serie)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(serie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(serie);
         }
 
         // GET: TVSeries/Edit/5

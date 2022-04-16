@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesApp.Data;
 
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220416103606_modification")]
+    partial class modification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -511,6 +513,39 @@ namespace MoviesApp.Migrations
                     b.ToTable("Productioncountries");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.Resultvideo", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("listVideosid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("published_at")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("site")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("size")
+                        .HasColumnType("int");
+
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("listVideosid");
+
+                    b.ToTable("Resultvideo");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.Seasons", b =>
                 {
                     b.Property<int>("idSeason")
@@ -667,6 +702,12 @@ namespace MoviesApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Moviesid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Seriesid")
+                        .HasColumnType("int");
+
                     b.Property<string>("english_name")
                         .HasColumnType("nvarchar(max)");
 
@@ -677,6 +718,10 @@ namespace MoviesApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Moviesid");
+
+                    b.HasIndex("Seriesid");
 
                     b.ToTable("SpokenLanguages");
                 });
@@ -717,35 +762,7 @@ namespace MoviesApp.Migrations
                     b.ToTable("SpokenLggSeries");
                 });
 
-            modelBuilder.Entity("MoviesApp.Models.Videos", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("published_at")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("site")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("size")
-                        .HasColumnType("int");
-
-                    b.Property<string>("type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Videos");
-                });
-
-            modelBuilder.Entity("MoviesApp.Models.VideosSeries", b =>
+            modelBuilder.Entity("MoviesApp.Models.listVideos", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -755,12 +772,11 @@ namespace MoviesApp.Migrations
                     b.Property<int>("idSerie")
                         .HasColumnType("int");
 
-                    b.Property<string>("idVideo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("id");
 
-                    b.ToTable("VideosSeries");
+                    b.HasIndex("idSerie");
+
+                    b.ToTable("listVideos");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.Createurs", b =>
@@ -821,10 +837,39 @@ namespace MoviesApp.Migrations
                     b.Navigation("serie");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.Resultvideo", b =>
+                {
+                    b.HasOne("MoviesApp.Models.listVideos", null)
+                        .WithMany("results")
+                        .HasForeignKey("listVideosid");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.Seasons", b =>
                 {
                     b.HasOne("MoviesApp.Models.Series", "serie")
                         .WithMany("Seasons")
+                        .HasForeignKey("idSerie")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("serie");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.SpokenLanguages", b =>
+                {
+                    b.HasOne("MoviesApp.Models.Movies", null)
+                        .WithMany("SpokenLanguages")
+                        .HasForeignKey("Moviesid");
+
+                    b.HasOne("MoviesApp.Models.Series", null)
+                        .WithMany("SpokenLanguages")
+                        .HasForeignKey("Seriesid");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.listVideos", b =>
+                {
+                    b.HasOne("MoviesApp.Models.Series", "serie")
+                        .WithMany("listVideos")
                         .HasForeignKey("idSerie")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -839,6 +884,11 @@ namespace MoviesApp.Migrations
                     b.Navigation("guest_stars");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.Movies", b =>
+                {
+                    b.Navigation("SpokenLanguages");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.Seasons", b =>
                 {
                     b.Navigation("episodes");
@@ -850,9 +900,18 @@ namespace MoviesApp.Migrations
 
                     b.Navigation("last_episode_to_air");
 
+                    b.Navigation("listVideos");
+
                     b.Navigation("Networks");
 
                     b.Navigation("Seasons");
+
+                    b.Navigation("SpokenLanguages");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.listVideos", b =>
+                {
+                    b.Navigation("results");
                 });
 #pragma warning restore 612, 618
         }
