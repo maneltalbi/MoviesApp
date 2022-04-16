@@ -216,6 +216,33 @@ namespace MoviesApp.Controllers
 
                                 }
                             }
+                            using (var responseG = await httpClient.GetAsync("genre/tv/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseDataG = await responseG.Content.ReadAsStringAsync();
+                                var modelG = JsonConvert.DeserializeObject<listGenre>(responseDataG);
+
+                                ViewBag.res = modelG;
+                                foreach (var genre in modelG.genres)
+                                {
+                                    foreach(var genreid in serie.genre_ids) {
+                                        if (genre.id == genreid) { 
+                                    GenresSeries genreserie = new GenresSeries();
+                                        genre.id .ToString();
+                                        genre.name.ToString();
+                                    _context.Genres.Add(genre);
+                                    _context.SaveChanges();
+                                    genreserie.idGenre = genre.id;
+                                    genreserie.idSerie = serie1.idSerie;
+                                    _context.GenresSeries.Add(genreserie);
+                                    _context.SaveChanges();
+                                        }
+
+                                    }
+                                }
+                            }
+
                             var origin_country = "";
                             foreach(var country in serie.origin_country)
                             {

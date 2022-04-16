@@ -13,7 +13,7 @@ namespace MoviesApp.Models
         public List<Createurs> Created_by { get; set; }
         public string first_air_date { get; set; }
         public string backdrop_path { get; set; }
-        public string[] genres { get; set; }
+        public int[] genre_ids { get; set; }
         public string homepage { get; set; }
         public string in_production { get; set; }
         public string languages { get; set; }

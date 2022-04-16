@@ -10,6 +10,7 @@ namespace MoviesApp.Models
     public class Genres
     {
         [Key]
+        public int idgenre { get; set; }
         public int id { get; set; }
         public string name { get; set; }
        
