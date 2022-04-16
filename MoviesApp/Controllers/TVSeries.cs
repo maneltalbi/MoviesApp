@@ -242,8 +242,38 @@ namespace MoviesApp.Controllers
                                     }
                                 }
                             }
+                            using (var responseimg = await httpClient.GetAsync("tv/"+serie.id+"/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseDataimg = await responseimg.Content.ReadAsStringAsync();
+                                var modelimg = JsonConvert.DeserializeObject<ResultImg>(responseDataimg);
+
+                                foreach (var poster in modelimg.posters)
+                                {
+                                    SeriesImages serieimg = new SeriesImages();
+
+                                    Images img = new Images();
+                                    img.idImage = modelimg.id;
+                                    img.aspect_ratio = poster.aspect_ratio;
+                                    img.file_path = poster.file_path;
+                                    img.height = poster.height;
+                                    img.iso_639_1 = poster.iso_639_1;
+                                    img.vote_average = poster.vote_average;
+                                    img.vote_count = poster.vote_count;
+                                    img.width = poster.width;
+                                   _context.Images.Add(img);
+                                    _context.SaveChanges();
+                                           serieimg.IdImg = modelimg.id;
+                                            serieimg.IdSerie = serie1.idSerie;
+                                            _context.SeriesImages.Add(serieimg);
+                                            _context.SaveChanges();
+                                       
+                                }
+                            }
 
                             var origin_country = "";
+
                             foreach(var country in serie.origin_country)
                             {
                                 origin_country = origin_country + serie.origin_country;
