@@ -12,13 +12,16 @@ namespace MoviesApp.Models
         public string name { get; set; }
         public List<Createurs> Created_by { get; set; }
         public string first_air_date { get; set; }
+       // public int[] episode_run_time { get; set; }
         public string backdrop_path { get; set; }
-        public int[] genre_ids { get; set; }
+        public List<Genres> genres { get; set; }
         public string homepage { get; set; }
         public string in_production { get; set; }
-        public string languages { get; set; }
+        public string[] languages { get; set; }
         public string last_air_date { get; set; }
-        public List<LastEpisodeToAir> last_episode_to_air { get; set; }
+       // public List<LastEpisodeToAir> last_episode_to_air { get; set; }
+        //public string next_episode_to_air { get; set; }
+
         public List<Networks> Networks { get; set; }
         public int number_of_episodes { get; set; }
         public int number_of_seasons { get; set; }
@@ -34,7 +37,6 @@ namespace MoviesApp.Models
         public string type { get; set; }
         public double vote_average { get; set; }
         public int vote_count { get; set; }
-        public List<listVideos> listVideos { get; set; }
 
     }
 }

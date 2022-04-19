@@ -15,11 +15,11 @@
         <div class="w3_agile_featured_movies">
             @foreach (var movie in ViewBag.results)
             {
-                var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+               // var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
 
                 <div class="col-md-2 w3l-movie-gride-agile">
                     <a asp-action="Movies/Save" asp-controller="Movies" asp-route-id="@movie.id" class="hvr-shutter-out-horizontal">
-                        <img src="@poster_Uri" title="album-name" class="img-responsive" alt=" ">
+                        @* <img src="@poster_Uri" title="album-name" class="img-responsive" alt=" ">*@
                         <div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
                     </a>
                     <div class="mid-1 agileits_w3layouts_mid_1_home">
