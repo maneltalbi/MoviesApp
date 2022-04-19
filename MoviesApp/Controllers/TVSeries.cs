@@ -196,6 +196,16 @@ namespace MoviesApp.Controllers
                              _context.SaveChanges();
                          }
                      }
+                    foreach(var network in serie.Networks)
+                    {
+                        network.id.ToString();
+                        network.name.ToString();
+                        network.logo_path.ToString();
+                        network.origin_country.ToString();
+                        network.idSerie = idf;
+                        _context.Networks.Add(network);
+                        _context.SaveChanges();
+                    }
                     // var poster_path = "";
 
                     //var backdrop_path = "";

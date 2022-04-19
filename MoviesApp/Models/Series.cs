@@ -13,7 +13,6 @@ namespace MoviesApp.Models
         public int idSerie { get; set; }
         public int id { get; set; }
         public string name { get; set; }
-
         public List<Createurs> Created_by { get; set; }
         public string first_air_date { get; set; }
         public string backdrop_path { get; set; }
