@@ -18,6 +18,9 @@ namespace MoviesApp.Models
         public string poster_path { get; set; }
         public int season_number { get; set; }
         public List<Episodes> episodes { get; set; }
+        public List<Crew> Crew { get; set; }
+        public List<GuestStars> GuestStars { get; set; }
+
         [ForeignKey("serie")]
         public int idSerie { get; set; }
         public Series serie { get; set; }

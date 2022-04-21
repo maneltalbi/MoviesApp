@@ -1,0 +1,11 @@
+﻿@if (ViewData["errors"].Equals(""))
+{
+    @:<p>Everything is fine.</p>
+    @:<script>alert('Serie is saved !!');</script>
+
+
+}
+else
+{
+    @:<script>alert('@ViewData["errors"]');</script>
+}

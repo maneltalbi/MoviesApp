@@ -133,215 +133,276 @@ namespace MoviesApp.Controllers
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 
                 // api_key can be requestred on TMDB website
-                using (var response = await httpClient.GetAsync("tv/"+serie1.id+"?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                using (var response = await httpClient.GetAsync("tv/" + serie1.id + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                 {
                     // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
                     string responseData = await response.Content.ReadAsStringAsync();
 
                     var serie = JsonConvert.DeserializeObject<ListSeries>(responseData);
-
-                    Series serieb = new Series();
-                    serieb.id = serie.id;
-                    serieb.name=serie.name.ToString();
-                    serieb.original_name=serie.original_name.ToString();
-                    serieb.first_air_date= serie.first_air_date.ToString();
-                    serieb.backdrop_path= serie.backdrop_path.ToString();
-                    serieb.homepage= serie.homepage.ToString();
-                    serieb.in_production= serie.in_production.ToString();
-                    serieb.languages= serie.languages.ToString();
-                    serieb.origin_country=serie.origin_country.ToString();
-                    serieb.last_air_date=serie.last_air_date.ToString();
-                    serieb.number_of_episodes=serie.number_of_episodes;
-                    serieb.number_of_seasons=serie.number_of_seasons;
-                    serieb.status=serie.status.ToString();
-                    serieb.type=serie.type.ToString();
-                    serieb.original_language=serie.original_language.ToString();
-                    serieb.overview=serie.overview.ToString();
-                    serieb.popularity=serie.popularity;
-                    serieb.poster_path=serie.poster_path.ToString();
-                    serieb.tagline=serie.tagline.ToString();
-                    serieb.vote_average=serie.vote_average;
-                    serieb.vote_count=serie.vote_count;
-                    _context.Series.Add(serieb);
-                    _context.SaveChanges();
                     int idf = 0;
-                    foreach(var seriedb in _context.Series) {
+                    foreach (var seriedb in _context.Series)
+                    {
                         if (serie.id == seriedb.id)
                         {
                             idf = seriedb.idSerie;
                         }
                     }
-                    foreach (var createur in serie.Created_by)
-                     {
-                         if (createur.profile_path == null)
-                         {
-                             createur.id.ToString();
-                             createur.credit_id.ToString();
-                             createur.name.ToString();
-                             createur.gender.ToString();
-                             createur.Seriesid = idf;
-                             _context.Createurs.Add(createur);
-                             _context.SaveChanges();
-                         }
-                         else
-                         {
-                             createur.id.ToString();
-                             createur.credit_id.ToString();
-                             createur.name.ToString();
-                             createur.gender.ToString();
-                             createur.profile_path.ToString();
-                             createur.Seriesid =idf;
-                             _context.Createurs.Add(createur);
-                             _context.SaveChanges();
-                         }
-                     }
-                    foreach(var network in serie.Networks)
+                    List<Series> series = new List<Series>();
+                    series = _context.Series.ToList();
+                    int count = 0;
+                    foreach (var seri in series)
                     {
-                        network.id.ToString();
-                        network.name.ToString();
-                        network.logo_path.ToString();
-                        network.origin_country.ToString();
-                        network.idSerie = idf;
-                        _context.Networks.Add(network);
-                        _context.SaveChanges();
-                    }
-                    // var poster_path = "";
-
-                    //var backdrop_path = "";
-                    //ViewBag.results = serie;
-
-                    //poster_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
-                    // backdrop_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.backdrop_path);
-
-                    // ViewBag.poster = poster_path;
-                    // ViewBag.serie = serie;
-                    /*  using (var responseep = await httpClient.GetAsync("tv/" + serie1.idSerie + "/episode_groups?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
-                      {
-                          // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
-
-                          string responseDataep = await responseep.Content.ReadAsStringAsync();
-
-                          var modelv = JsonConvert.DeserializeObject<listVideos>(responseDataep);
-                          foreach(var video in modelv.results)
-                          {
-                              VideosSeries vidser = new VideosSeries();
-
-                              video.id.ToString();
-                              video.key.ToString();
-                              video.name.ToString();
-                              video.published_at.ToString();
-                              video.site.ToString();
-                              video.size.ToString();
-                              video.type.ToString();
-                              _context.Videos.Add(video);
-
-                              _context.SaveChanges();
-
-                              vidser.idSerie = serie1.idSerie;
-                              vidser.idVideo = video.id.ToString();
-                              _context.VideosSeries.Add(vidser);
-
-                              _context.SaveChanges();
-
-                          }
-
-                      }*/
-                    using (var responsev = await httpClient.GetAsync("tv/"+serie1.id+"/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
-                            {
-                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
-
-                                string responseDatav = await responsev.Content.ReadAsStringAsync();
-
-                                var modelv = JsonConvert.DeserializeObject<listVideos>(responseDatav);
-                              //  _context.Series.Add(serie);
-                                //_context.SaveChanges();
-                              
-                                foreach (var video in modelv.results)
-                                {
-                                    VideosSeries vidser = new VideosSeries();
-
-                                    video.id.ToString();
-                                    video.name.ToString();
-                                    video.published_at.ToString();
-                                    video.site.ToString();
-                                    video.size.ToString();
-                                    video.type.ToString();
-                                    video.key.ToString();
-                                    _context.Videos.Add(video);
-                                    _context.SaveChanges();
-                                    vidser.id = serie1.id;
-                                    vidser.idVideo = video.id.ToString();
-                                    _context.VideosSeries.Add(vidser);
-
-                                    _context.SaveChanges();
-
-                                }
-                            }
-                            using (var responseG = await httpClient.GetAsync("genre/tv/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
-                            {
-                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
-
-                                string responseDataG = await responseG.Content.ReadAsStringAsync();
-                                var modelG = JsonConvert.DeserializeObject<listGenre>(responseDataG);
-
-                                ViewBag.res = modelG;
-                                foreach (var genre in modelG.genres)
-                                {
-                                    foreach(var genreid in serie.genres) {
-                                        if (genre.id == genreid.id) { 
-                                    GenresSeries genreserie = new GenresSeries();
-                                        genre.id .ToString();
-                                        genre.name.ToString();
-                                    _context.Genres.Add(genre);
-                                    _context.SaveChanges();
-                                    genreserie.idGenre = genre.id;
-                                    genreserie.idSerie = serie1.id;
-                                    _context.GenresSeries.Add(genreserie);
-                                    _context.SaveChanges();
-                                        }
-
-                                    }
-                                }
-                            }
-                            using (var responseimg = await httpClient.GetAsync("tv/"+serie.id+"/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
-                            {
-                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
-
-                                string responseDataimg = await responseimg.Content.ReadAsStringAsync();
-                                var modelimg = JsonConvert.DeserializeObject<ResultImg>(responseDataimg);
-
-                                foreach (var poster in modelimg.posters)
-                                {
-                                    SeriesImages serieimg = new SeriesImages();
-
-                                    Images img = new Images();
-                                    img.idImage = modelimg.id;
-                                    img.aspect_ratio = poster.aspect_ratio;
-                                    img.file_path = poster.file_path;
-                                    img.height = poster.height;
-                                    img.iso_639_1 = poster.iso_639_1;
-                                    img.vote_average = poster.vote_average;
-                                    img.vote_count = poster.vote_count;
-                                    img.width = poster.width;
-                                   _context.Images.Add(img);
-                                    _context.SaveChanges();
-                                           serieimg.IdImg = modelimg.id;
-                                            serieimg.IdSerie = serie1.id;
-                                            _context.SeriesImages.Add(serieimg);
-                                            _context.SaveChanges();
-                                       
-                                }
-                            }
+                        if (serie1.id == seri.id)
+                        {
+                            count = count + 1;
 
                            
-                          //  _context.Series.Add(serie);
+
+                        }
+                    }
+                    if (count == 0)
+                    {
+                        ViewData["errors"] = "";
+                        Series serieb = new Series();
+                        serieb.id = serie.id;
+                        serieb.name = serie.name.ToString();
+                        serieb.original_name = serie.original_name.ToString();
+                        serieb.first_air_date = serie.first_air_date.ToString();
+                        serieb.backdrop_path = serie.backdrop_path.ToString();
+                        serieb.homepage = serie.homepage.ToString();
+                        serieb.in_production = serie.in_production.ToString();
+                        serieb.languages = serie.languages.ToString();
+                        serieb.origin_country = serie.origin_country.ToString();
+                        serieb.last_air_date = serie.last_air_date.ToString();
+                        serieb.number_of_episodes = serie.number_of_episodes;
+                        serieb.number_of_seasons = serie.number_of_seasons;
+                        serieb.status = serie.status.ToString();
+                        serieb.type = serie.type.ToString();
+                        serieb.original_language = serie.original_language.ToString();
+                        serieb.overview = serie.overview.ToString();
+                        serieb.popularity = serie.popularity;
+                        serieb.poster_path = serie.poster_path.ToString();
+                        serieb.tagline = serie.tagline.ToString();
+                        serieb.vote_average = serie.vote_average;
+                        serieb.vote_count = serie.vote_count;
+                        _context.Series.Add(serieb);
+                        _context.SaveChanges();
+                       
+                        foreach (var createur in serie.Created_by)
+                        {
+                            if (createur.profile_path == null)
+                            {
+                                createur.id.ToString();
+                                createur.credit_id.ToString();
+                                createur.name.ToString();
+                                createur.gender.ToString();
+                                createur.Seriesid = idf;
+                                _context.Createurs.Add(createur);
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                createur.id.ToString();
+                                createur.credit_id.ToString();
+                                createur.name.ToString();
+                                createur.gender.ToString();
+                                createur.profile_path.ToString();
+                                createur.Seriesid = idf;
+                                _context.Createurs.Add(createur);
+                                _context.SaveChanges();
+                            }
+                        }
+                        foreach (var network in serie.Networks)
+                        {
+                            network.id.ToString();
+                            network.name.ToString();
+                            //network.logo_path.ToString();
+                            network.origin_country.ToString();
+                            network.idSerie = idf;
+                            _context.Networks.Add(network);
+                            _context.SaveChanges();
+                        }
+                        // var poster_path = "";
+
+                        //var backdrop_path = "";
+                        //ViewBag.results = serie;
+
+                        //poster_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.poster_path);
+                        // backdrop_path = String.Format("http://image.tmdb.org/t/p/w500/{0}", serie.backdrop_path);
+
+                        // ViewBag.poster = poster_path;
+                        // ViewBag.serie = serie;
+                        /*  using (var responseep = await httpClient.GetAsync("tv/" + serie1.idSerie + "/episode_groups?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                          {
+                              // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                              string responseDataep = await responseep.Content.ReadAsStringAsync();
+
+                              var modelv = JsonConvert.DeserializeObject<listVideos>(responseDataep);
+                              foreach(var video in modelv.results)
+                              {
+                                  VideosSeries vidser = new VideosSeries();
+
+                                  video.id.ToString();
+                                  video.key.ToString();
+                                  video.name.ToString();
+                                  video.published_at.ToString();
+                                  video.site.ToString();
+                                  video.size.ToString();
+                                  video.type.ToString();
+                                  _context.Videos.Add(video);
+
+                                  _context.SaveChanges();
+
+                                  vidser.idSerie = serie1.idSerie;
+                                  vidser.idVideo = video.id.ToString();
+                                  _context.VideosSeries.Add(vidser);
+
+                                  _context.SaveChanges();
+
+                              }
+
+                          }*/
+                        using (var responsev = await httpClient.GetAsync("tv/" + serie1.id + "/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                            string responseDatav = await responsev.Content.ReadAsStringAsync();
+
+                            var modelv = JsonConvert.DeserializeObject<listVideos>(responseDatav);
+                            //  _context.Series.Add(serie);
                             //_context.SaveChanges();
 
+                            foreach (var video in modelv.results)
+                            {
+                                VideosSeries vidser = new VideosSeries();
+
+                                video.id.ToString();
+                                video.name.ToString();
+                                video.published_at.ToString();
+                                video.site.ToString();
+                                video.size.ToString();
+                                video.type.ToString();
+                                video.key.ToString();
+                                _context.videos.Add(video);
+                                _context.SaveChanges();
+                                vidser.idSerie = serie1.id;
+                                vidser.idVideo = video.id.ToString();
+                                _context.VideosSeries.Add(vidser);
+
+                                _context.SaveChanges();
+
+                            }
+                        }
+                       // using (var responseG = await httpClient.GetAsync("genre/tv/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        //{
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                           // string responseDataG = await responseG.Content.ReadAsStringAsync();
+                            //var modelG = JsonConvert.DeserializeObject<listGenre>(responseDataG);
+
+                            //ViewBag.res = modelG;
+                            List<Genres> Genres = new List<Genres>();
+                            Genres = _context.Genres.ToList();
+                            int countg = 0;
+                           // foreach (var genre in modelG.genres)
+                            //{
+                                foreach (var genre in serie.genres)
+                                {
+                                         foreach (var genreb in Genres)
+                                            {
+                                             if (genreb.id == genre.id)
+                                              {
+                                                 countg = countg + 1;
+                                              }
+                                          }
+                                        
+                                            if(countg == 0) { 
+                                            genre.id.ToString();
+                                            genre.name.ToString();
+                                            _context.Genres.Add(genre);
+                                            _context.SaveChanges();
+                                            GenresSeries genreserie = new GenresSeries();
+                                            genreserie.idGenre = genre.id;
+                                            genreserie.idSerie = serie1.id;
+                                            _context.GenresSeries.Add(genreserie);
+                                            _context.SaveChanges();
+                                            }
+                                            else
+                                            {
+                                                GenresSeries genreserie = new GenresSeries();
+                                                genreserie.idGenre = genre.id;
+                                                genreserie.idSerie = serie1.id;
+                                                _context.GenresSeries.Add(genreserie);
+                                                _context.SaveChanges();
+                                            }
+                                       
+                                       
+                                    }
+                               // }
+                            //}
+                        //}
+                        using (var responseimg = await httpClient.GetAsync("tv/" + serie.id + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                            string responseDataimg = await responseimg.Content.ReadAsStringAsync();
+                            var modelimg = JsonConvert.DeserializeObject<ResultImg>(responseDataimg);
+
+                            foreach (var poster in modelimg.posters)
+                            {
+                                SeriesImages serieimg = new SeriesImages();
+
+                                Images img = new Images();
+                                img.idImage = modelimg.id;
+                                img.aspect_ratio = poster.aspect_ratio;
+                                img.file_path = poster.file_path;
+                                img.height = poster.height;
+                                img.iso_639_1 = poster.iso_639_1;
+                                img.vote_average = poster.vote_average;
+                                img.vote_count = poster.vote_count;
+                                img.width = poster.width;
+                                _context.Images.Add(img);
+                                _context.SaveChanges();
+                                serieimg.IdImg = modelimg.id;
+                                serieimg.IdSerie = serie1.id;
+                                _context.SeriesImages.Add(serieimg);
+                                _context.SaveChanges();
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ViewData["errors"] = "Serie already exist";
+                    }
+                    foreach(var season in serie.Seasons)
+                    {
+                        using (var responseSeason = await httpClient.GetAsync("tv/" + serie.id + "/season/"+season.season_number+"?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                            string responseDataSeason = await responseSeason.Content.ReadAsStringAsync();
+                            var modelSeason = JsonConvert.DeserializeObject<Seasons>(responseDataSeason);
+                            ViewBag.season = season;
+                            Seasons seasonb = new Seasons();
+                            seasonb.id = season.id;
+                            seasonb.name = season.name;
+                            seasonb.air_date = season.air_date;
+                            seasonb.overview = season.overview;
+                            seasonb.poster_path = season.poster_path;
+                            seasonb.season_number = season.season_number;
+                            seasonb.idSerie = idf;
+                            _context.Seasons.Add(seasonb);
+                            _context.SaveChanges();
+                        }
+
+                    }
 
                 }
-            }
-            return View();
+                }
+            return View("SaveResult");
         }
 
         [HttpGet]

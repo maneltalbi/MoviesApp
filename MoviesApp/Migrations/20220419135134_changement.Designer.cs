@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesApp.Data;
 
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220419135134_changement")]
+    partial class changement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -741,25 +743,7 @@ namespace MoviesApp.Migrations
                     b.ToTable("SpokenLggSeries");
                 });
 
-            modelBuilder.Entity("MoviesApp.Models.VideosSeries", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("idSerie")
-                        .HasColumnType("int");
-
-                    b.Property<string>("idVideo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("VideosSeries");
-                });
-
-            modelBuilder.Entity("MoviesApp.Models.videos", b =>
+            modelBuilder.Entity("MoviesApp.Models.Videos", b =>
                 {
                     b.Property<int>("idVideo")
                         .ValueGeneratedOnAdd()
@@ -789,7 +773,25 @@ namespace MoviesApp.Migrations
 
                     b.HasKey("idVideo");
 
-                    b.ToTable("videos");
+                    b.ToTable("Videos");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.VideosSeries", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("idSerie")
+                        .HasColumnType("int");
+
+                    b.Property<string>("idVideo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("VideosSeries");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.Createurs", b =>

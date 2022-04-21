@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MoviesApp.Models;
 
 namespace MoviesApp.Data
 {
-    public class ApplicationDbContext :DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -22,7 +18,7 @@ namespace MoviesApp.Data
         public DbSet<Productioncountries> Productioncountries { get; set; }
         public DbSet<Seasons> Seasons { get; set; }
         public DbSet<SpokenLanguages> SpokenLanguages { get; set; }
-        public DbSet<Videos> Videos { get; set; }
+        public DbSet<videos> videos { get; set; }
         public DbSet<VideosSeries> VideosSeries { get; set; }
 
         public DbSet<Genres> Genres { get; set; }
