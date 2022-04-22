@@ -433,7 +433,7 @@ namespace MoviesApp.Controllers
                             seasonb.idSerie = idf;
                             _context.Seasons.Add(seasonb);
                             _context.SaveChanges();
-                        }
+                        
                         using (var responseSeasonimg = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                         {
                             // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
@@ -494,8 +494,46 @@ namespace MoviesApp.Controllers
 
                                 }
                             }
+                            foreach (var episode in modelSeason.episodes)
+                            {
+                                using (var responseEp = await httpClient.GetAsync("tv/" + serie1.id + "/season/" + season.season_number + "/episode/"+episode.episode_number+"?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                                {
+                                    // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                    string responseDataEp = await responseEp.Content.ReadAsStringAsync();
+
+                                    var modelEp = JsonConvert.DeserializeObject<Episodes>(responseDataEp);
+                                    List<Seasons> seasons = new List<Seasons>();
+                                    seasons = _context.Seasons.ToList();
+                                    int idseason = 0;
+                                    foreach (var seasonbd in seasons)
+                                    {
+                                        if (season.id == seasonbd.id)
+                                        {
+                                            idseason = seasonbd.idSeason;
+                                        }
+                                    }
+                                    Episodes ep = new Episodes();
+                                    ep.id = episode.id;
+                                    ep.name = episode.name;
+                                    ep.air_date = episode.air_date;
+                                    ep.overview = episode.overview;
+                                    ep.production_code = episode.production_code;
+                                    ep.season_number = episode.season_number;
+                                    ep.episode_number = episode.episode_number;
+                                    ep.still_path = episode.still_path;
+                                    ep.vote_count = episode.vote_count;
+                                    ep.vote_average = episode.vote_average;
+                                    ep.idSeason = idseason;
+                                    _context.Episodes.Add(ep);
+                                    _context.SaveChanges();
+
+                                }
+                            }
                         }
-                }else
+                    }
+                    }
+                    else
                     {
                         ViewData["errors"] = "Serie already exist";
                     }
