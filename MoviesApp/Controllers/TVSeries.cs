@@ -141,15 +141,16 @@ namespace MoviesApp.Controllers
 
                     var serie = JsonConvert.DeserializeObject<ListSeries>(responseData);
                     int idf = 0;
-                    foreach (var seriedb in _context.Series)
+                    List<Series> series = new List<Series>();
+                    series = _context.Series.ToList();
+                    foreach (var seriedb in series)
                     {
                         if (serie.id == seriedb.id)
                         {
                             idf = seriedb.idSerie;
                         }
                     }
-                    List<Series> series = new List<Series>();
-                    series = _context.Series.ToList();
+                    
                     int count = 0;
                     foreach (var seri in series)
                     {
@@ -188,7 +189,16 @@ namespace MoviesApp.Controllers
                         serieb.vote_count = serie.vote_count;
                         _context.Series.Add(serieb);
                         _context.SaveChanges();
-                       
+                        
+                        List<Series> series1 = new List<Series>();
+                        series1 = _context.Series.ToList();
+                        foreach (var seriedb in series1)
+                        {
+                            if (serie.id == seriedb.id)
+                            {
+                                idf = seriedb.idSerie;
+                            }
+                        }
                         foreach (var createur in serie.Created_by)
                         {
                             if (createur.profile_path == null)
@@ -371,6 +381,27 @@ namespace MoviesApp.Controllers
                                 _context.SaveChanges();
 
                             }
+                            foreach (var backdrop in modelimg.backdrops)
+                            {
+                                SeriesImages serieimg1 = new SeriesImages();
+
+                                Images img1 = new Images();
+                                img1.idImage = modelimg.id;
+                                img1.aspect_ratio = backdrop.aspect_ratio;
+                                img1.file_path = backdrop.file_path;
+                                img1.height = backdrop.height;
+                                img1.iso_639_1 = backdrop.iso_639_1;
+                                img1.vote_average = backdrop.vote_average;
+                                img1.vote_count = backdrop.vote_count;
+                                img1.width = backdrop.width;
+                                _context.Images.Add(img1);
+                                _context.SaveChanges();
+                                serieimg1.IdImg = modelimg.id;
+                                serieimg1.IdSerie = serie1.id;
+                                _context.SeriesImages.Add(serieimg1);
+                                _context.SaveChanges();
+
+                            }
                         }
                     }
                     else
@@ -386,6 +417,15 @@ namespace MoviesApp.Controllers
                             string responseDataSeason = await responseSeason.Content.ReadAsStringAsync();
                             var modelSeason = JsonConvert.DeserializeObject<Seasons>(responseDataSeason);
                             ViewBag.season = season;
+                            List<Series> series2 = new List<Series>();
+                            series2 = _context.Series.ToList();
+                            foreach (var seriedb in series2)
+                            {
+                                if (serie.id == seriedb.id)
+                                {
+                                    idf = seriedb.idSerie;
+                                }
+                            }
                             Seasons seasonb = new Seasons();
                             seasonb.id = season.id;
                             seasonb.name = season.name;
@@ -396,6 +436,35 @@ namespace MoviesApp.Controllers
                             seasonb.idSerie = idf;
                             _context.Seasons.Add(seasonb);
                             _context.SaveChanges();
+                        }
+                        using (var responseSeasonimg = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                            string responseDataSeasonimg = await responseSeasonimg.Content.ReadAsStringAsync();
+                            var modelSeasonimg = JsonConvert.DeserializeObject<ResultImg>(responseDataSeasonimg);
+                            //ViewBag.season = season;
+                            foreach (var poster in modelSeasonimg.posters)
+                            {
+                                SeasonsImages seasonimg = new SeasonsImages();
+
+                                Images img = new Images();
+                                img.idImage = modelSeasonimg.id;
+                                img.aspect_ratio = poster.aspect_ratio;
+                                img.file_path = poster.file_path;
+                                img.height = poster.height;
+                                img.iso_639_1 = poster.iso_639_1;
+                                img.vote_average = poster.vote_average;
+                                img.vote_count = poster.vote_count;
+                                img.width = poster.width;
+                                _context.Images.Add(img);
+                                _context.SaveChanges();
+                                seasonimg.IdImag = modelSeasonimg.id;
+                                seasonimg.IdSeason = season.id;
+                                _context.SeasonsImages.Add(seasonimg);
+                                _context.SaveChanges();
+
+                            }
                         }
 
                     }
