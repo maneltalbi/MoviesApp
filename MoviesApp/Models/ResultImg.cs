@@ -11,6 +11,8 @@ namespace MoviesApp.Models
         public List<Posters> posters { get; set; }
 
         public List<backdrops> backdrops { get; set; }
+        public List<stills> stills { get; set; }
+
 
     }
 }

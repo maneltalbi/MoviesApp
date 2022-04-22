@@ -170,7 +170,7 @@ namespace MoviesApp.Controllers
                         serieb.name = serie.name.ToString();
                         serieb.original_name = serie.original_name.ToString();
                         serieb.first_air_date = serie.first_air_date.ToString();
-                        serieb.backdrop_path = serie.backdrop_path.ToString();
+                        serieb.backdrop_path = serie.backdrop_path;
                         serieb.homepage = serie.homepage.ToString();
                         serieb.in_production = serie.in_production.ToString();
                         serieb.languages = serie.languages.ToString();
@@ -527,9 +527,67 @@ namespace MoviesApp.Controllers
                                     ep.idSeason = idseason;
                                     _context.Episodes.Add(ep);
                                     _context.SaveChanges();
+                                        using (var responseEpimg = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "/episode/" + episode.episode_number + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                                        {
+                                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
+                                            string responseDataEpimg = await responseEpimg.Content.ReadAsStringAsync();
+                                            var modelEpimg = JsonConvert.DeserializeObject<ResultImg>(responseDataEpimg);
+                                            //ViewBag.season = season;
+                                            foreach (var poster in modelEpimg.stills)
+                                            {
+                                                EpisodesImages epimg = new EpisodesImages();
+
+                                                Images img = new Images();
+                                                img.idImage = modelEpimg.id;
+                                                img.aspect_ratio = poster.aspect_ratio;
+                                                img.file_path = poster.file_path;
+                                                img.height = poster.height;
+                                                img.iso_639_1 = poster.iso_639_1;
+                                                img.vote_average = poster.vote_average;
+                                                img.vote_count = poster.vote_count;
+                                                img.width = poster.width;
+                                                _context.Images.Add(img);
+                                                _context.SaveChanges();
+                                                epimg.IdImg = modelEpimg.id;
+                                                epimg.IdEpisode = episode.id;
+                                                _context.EpisodesImages.Add(epimg);
+                                                _context.SaveChanges();
+
+                                            }
+                                        }
+                                        using (var responseEpvid = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "/episode/" + episode.episode_number + "/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                                        {
+                                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                            string responseDataEpvid = await responseEpvid.Content.ReadAsStringAsync();
+                                            var modelEpvid = JsonConvert.DeserializeObject<listVideos>(responseDataEpvid);
+                                            //ViewBag.season = season;
+                                            foreach (var video in modelEpvid.results)
+                                            {
+                                                EpisodesVideos videp = new EpisodesVideos();
+
+                                                video.id.ToString();
+                                                video.name.ToString();
+                                                video.published_at.ToString();
+                                                video.site.ToString();
+                                                video.size.ToString();
+                                                video.type.ToString();
+                                                video.key.ToString();
+                                                _context.videos.Add(video);
+                                                _context.SaveChanges();
+                                                videp.idEp = serie1.id;
+                                                videp.idVideo = video.id.ToString();
+                                                _context.EpisodesVideos.Add(videp);
+                                                _context.SaveChanges();
+
+                                            }
+                                        }
+
+
+
+                                    }
                                 }
-                            }
                         }
                     }
                     }

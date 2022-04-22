@@ -42,8 +42,9 @@ namespace MoviesApp.Data
         public DbSet<SpokenLggMovies> SpokenLggMovies { get; set; }
         public DbSet<SpokenLggSeries> SpokenLggSeries { get; set; }
         public DbSet<VideosSeasons> VideosSeasons { get; set; }
+        public DbSet<EpisodesVideos> EpisodesVideos { get; set; }
 
-
+        
 
 
     }
