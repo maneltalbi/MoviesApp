@@ -41,6 +41,7 @@ namespace MoviesApp.Data
         public DbSet<ProCompSeries> ProCompSeries { get; set; }
         public DbSet<SpokenLggMovies> SpokenLggMovies { get; set; }
         public DbSet<SpokenLggSeries> SpokenLggSeries { get; set; }
+        public DbSet<VideosSeasons> VideosSeasons { get; set; }
 
 
 

@@ -150,7 +150,7 @@ namespace MoviesApp.Controllers
                             idf = seriedb.idSerie;
                         }
                     }
-                    
+
                     int count = 0;
                     foreach (var seri in series)
                     {
@@ -158,7 +158,7 @@ namespace MoviesApp.Controllers
                         {
                             count = count + 1;
 
-                           
+
 
                         }
                     }
@@ -189,7 +189,7 @@ namespace MoviesApp.Controllers
                         serieb.vote_count = serie.vote_count;
                         _context.Series.Add(serieb);
                         _context.SaveChanges();
-                        
+
                         List<Series> series1 = new List<Series>();
                         series1 = _context.Series.ToList();
                         foreach (var seriedb in series1)
@@ -305,53 +305,53 @@ namespace MoviesApp.Controllers
 
                             }
                         }
-                       // using (var responseG = await httpClient.GetAsync("genre/tv/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        // using (var responseG = await httpClient.GetAsync("genre/tv/list?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                         //{
-                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+                        // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
-                           // string responseDataG = await responseG.Content.ReadAsStringAsync();
-                            //var modelG = JsonConvert.DeserializeObject<listGenre>(responseDataG);
+                        // string responseDataG = await responseG.Content.ReadAsStringAsync();
+                        //var modelG = JsonConvert.DeserializeObject<listGenre>(responseDataG);
 
-                            //ViewBag.res = modelG;
-                            List<Genres> Genres = new List<Genres>();
-                            Genres = _context.Genres.ToList();
-                            int countg = 0;
-                           // foreach (var genre in modelG.genres)
-                            //{
-                                foreach (var genre in serie.genres)
+                        //ViewBag.res = modelG;
+                        List<Genres> Genres = new List<Genres>();
+                        Genres = _context.Genres.ToList();
+                        int countg = 0;
+                        // foreach (var genre in modelG.genres)
+                        //{
+                        foreach (var genre in serie.genres)
+                        {
+                            foreach (var genreb in Genres)
+                            {
+                                if (genreb.id == genre.id)
                                 {
-                                         foreach (var genreb in Genres)
-                                            {
-                                             if (genreb.id == genre.id)
-                                              {
-                                                 countg = countg + 1;
-                                              }
-                                          }
-                                        
-                                            if(countg == 0) { 
-                                            genre.id.ToString();
-                                            genre.name.ToString();
-                                            _context.Genres.Add(genre);
-                                            _context.SaveChanges();
-                                            GenresSeries genreserie = new GenresSeries();
-                                            genreserie.idGenre = genre.id;
-                                            genreserie.idSerie = serie1.id;
-                                            _context.GenresSeries.Add(genreserie);
-                                            _context.SaveChanges();
-                                            }
-                                            else
-                                            {
-                                                GenresSeries genreserie = new GenresSeries();
-                                                genreserie.idGenre = genre.id;
-                                                genreserie.idSerie = serie1.id;
-                                                _context.GenresSeries.Add(genreserie);
-                                                _context.SaveChanges();
-                                            }
-                                       
-                                       
-                                    }
-                               // }
-                            //}
+                                    countg = countg + 1;
+                                }
+                            }
+
+                            if (countg == 0) {
+                                genre.id.ToString();
+                                genre.name.ToString();
+                                _context.Genres.Add(genre);
+                                _context.SaveChanges();
+                                GenresSeries genreserie = new GenresSeries();
+                                genreserie.idGenre = genre.id;
+                                genreserie.idSerie = serie1.id;
+                                _context.GenresSeries.Add(genreserie);
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                GenresSeries genreserie = new GenresSeries();
+                                genreserie.idGenre = genre.id;
+                                genreserie.idSerie = serie1.id;
+                                _context.GenresSeries.Add(genreserie);
+                                _context.SaveChanges();
+                            }
+
+
+                        }
+                        // }
+                        //}
                         //}
                         using (var responseimg = await httpClient.GetAsync("tv/" + serie.id + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                         {
@@ -403,14 +403,11 @@ namespace MoviesApp.Controllers
 
                             }
                         }
-                    }
-                    else
+                    
+
+                    foreach (var season in serie.Seasons)
                     {
-                        ViewData["errors"] = "Serie already exist";
-                    }
-                    foreach(var season in serie.Seasons)
-                    {
-                        using (var responseSeason = await httpClient.GetAsync("tv/" + serie.id + "/season/"+season.season_number+"?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        using (var responseSeason = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                         {
                             // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
@@ -467,8 +464,41 @@ namespace MoviesApp.Controllers
                             }
                         }
 
-                    }
+                            using (var responsevs = await httpClient.GetAsync("tv/" + serie1.id + "/season/" + season.season_number + "/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
+                                string responseDatavs = await responsevs.Content.ReadAsStringAsync();
+
+                                var modelvs = JsonConvert.DeserializeObject<listVideos>(responseDatavs);
+                                //  _context.Series.Add(serie);
+                                //_context.SaveChanges();
+
+                                foreach (var video in modelvs.results)
+                                {
+                                    VideosSeasons vidseason = new VideosSeasons();
+
+                                    video.id.ToString();
+                                    video.name.ToString();
+                                    video.published_at.ToString();
+                                    video.site.ToString();
+                                    video.size.ToString();
+                                    video.type.ToString();
+                                    video.key.ToString();
+                                    _context.videos.Add(video);
+                                    _context.SaveChanges();
+                                    vidseason.idSeason = serie1.id;
+                                    vidseason.idVideo = video.id.ToString();
+                                    _context.VideosSeasons.Add(vidseason);
+                                    _context.SaveChanges();
+
+                                }
+                            }
+                        }
+                }else
+                    {
+                        ViewData["errors"] = "Serie already exist";
+                    }
                 }
                 }
             return View("SaveResult");
