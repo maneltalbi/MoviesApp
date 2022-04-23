@@ -19,8 +19,10 @@ namespace MoviesApp.Models
         public string in_production { get; set; }
         public string[] languages { get; set; }
         public string last_air_date { get; set; }
-       // public List<LastEpisodeToAir> last_episode_to_air { get; set; }
+        // public List<LastEpisodeToAir> last_episode_to_air { get; set; }
         //public string next_episode_to_air { get; set; }
+        public List<ProductionCompanies> production_companies { get; set; }
+        public List<Productioncountries> production_countries { get; set; }
 
         public List<Networks> Networks { get; set; }
         public int number_of_episodes { get; set; }

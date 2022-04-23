@@ -403,7 +403,19 @@ namespace MoviesApp.Controllers
 
                             }
                         }
-                    
+                    foreach(var prodcountrie in serie.production_countries)
+                        {
+                            ProdCountrieSeries prodcountserie = new ProdCountrieSeries();
+                            Productioncountries prodcount = new Productioncountries();
+                            prodcount.iso_3166_1 = prodcountrie.iso_3166_1;
+                            prodcount.name = prodcountrie.name;
+                            _context.Productioncountries.Add(prodcount);
+                            _context.SaveChanges();
+                            prodcountserie.idSerie = serie.id;
+                            prodcountserie.ProdCountrie = prodcountrie.name;
+                            _context.ProdCountrieSeries.Add(prodcountserie);
+                            _context.SaveChanges();
+                        }
 
                     foreach (var season in serie.Seasons)
                     {
@@ -612,7 +624,20 @@ namespace MoviesApp.Controllers
                                             _context.SaveChanges();
                                             
                                         }
+                                        foreach (var crew in modelEp.crew)
+                                        {
+                                            Crew crw = new Crew();
+                                            crw.id = crew.id;
+                                            crw.name = crew.name;
+                                            crw.credit_id = crew.credit_id;
+                                            crw.departement = crew.departement;
+                                            crw.job = crew.job;
+                                            crw.profile_path = crew.profile_path;
+                                            crew.idEpisode = ide;
+                                            _context.Crew.Add(crw);
+                                            _context.SaveChanges();
 
+                                        }
 
                                     }
                                 }

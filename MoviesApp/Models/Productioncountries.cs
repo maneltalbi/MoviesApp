@@ -10,7 +10,7 @@ namespace MoviesApp.Models
     public class Productioncountries
     {
         [Key]
-        public int id { get; set; }
+        public int idProdCountry { get; set; }
         public string iso_3166_1 { get; set; }
         public string name { get; set; }
         
