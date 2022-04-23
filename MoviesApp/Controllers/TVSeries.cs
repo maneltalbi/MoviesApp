@@ -416,8 +416,23 @@ namespace MoviesApp.Controllers
                             _context.ProdCountrieSeries.Add(prodcountserie);
                             _context.SaveChanges();
                         }
+                        foreach (var prodcompany in serie.production_companies)
+                        {
+                            ProCompSeries prodcompserie = new ProCompSeries();
+                            ProductionCompanies prodcomp = new ProductionCompanies();
+                            prodcomp.logo_path = prodcompany.logo_path;
+                            prodcomp.name = prodcompany.name;
+                            prodcomp.origin_country = prodcompany.origin_country;
+                            prodcomp.id = prodcompany.id;
+                            _context.ProductionCompanies.Add(prodcomp);
+                            _context.SaveChanges();
+                            prodcompserie.idSerie = serie.id;
+                            prodcompserie.ProdCompanie = prodcompany.id;
+                            _context.ProCompSeries.Add(prodcompserie);
+                            _context.SaveChanges();
+                        }
 
-                    foreach (var season in serie.Seasons)
+                        foreach (var season in serie.Seasons)
                     {
                         using (var responseSeason = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
                         {
