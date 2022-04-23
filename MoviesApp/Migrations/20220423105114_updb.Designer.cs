@@ -10,8 +10,8 @@ using MoviesApp.Data;
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220421093919_videoskey")]
-    partial class videoskey
+    [Migration("20220423105114_updb")]
+    partial class updb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,13 +66,13 @@ namespace MoviesApp.Migrations
                     b.Property<string>("departement")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("episode_number")
-                        .HasColumnType("int");
-
                     b.Property<int?>("episodeidEpisode")
                         .HasColumnType("int");
 
                     b.Property<int>("idCrew")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idEpisode")
                         .HasColumnType("int");
 
                     b.Property<string>("job")
@@ -89,6 +89,24 @@ namespace MoviesApp.Migrations
                     b.HasIndex("episodeidEpisode");
 
                     b.ToTable("Crew");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.EpisodeStar", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("idEpisode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idStar")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("EpisodeStar");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.Episodes", b =>
@@ -156,6 +174,24 @@ namespace MoviesApp.Migrations
                     b.ToTable("EpisodesImages");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.EpisodesVideos", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("idEp")
+                        .HasColumnType("int");
+
+                    b.Property<string>("idVideo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("EpisodesVideos");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.Genres", b =>
                 {
                     b.Property<int>("idgenre")
@@ -217,20 +253,23 @@ namespace MoviesApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("adult")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("character")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("credit_id")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("episode_number")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("episodeidEpisode")
+                    b.Property<int>("gender")
                         .HasColumnType("int");
 
                     b.Property<int>("id")
                         .HasColumnType("int");
+
+                    b.Property<string>("known_for_department")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
@@ -238,12 +277,16 @@ namespace MoviesApp.Migrations
                     b.Property<int>("order")
                         .HasColumnType("int");
 
+                    b.Property<string>("original_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("popularity")
+                        .HasColumnType("float");
+
                     b.Property<string>("profile_path")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idGuest");
-
-                    b.HasIndex("episodeidEpisode");
 
                     b.ToTable("GuestStars");
                 });
@@ -743,6 +786,24 @@ namespace MoviesApp.Migrations
                     b.ToTable("SpokenLggSeries");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.VideosSeasons", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("idSeason")
+                        .HasColumnType("int");
+
+                    b.Property<string>("idVideo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("VideosSeasons");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.VideosSeries", b =>
                 {
                     b.Property<int>("id")
@@ -808,7 +869,7 @@ namespace MoviesApp.Migrations
             modelBuilder.Entity("MoviesApp.Models.Crew", b =>
                 {
                     b.HasOne("MoviesApp.Models.Episodes", "episode")
-                        .WithMany("crew")
+                        .WithMany()
                         .HasForeignKey("episodeidEpisode");
 
                     b.Navigation("episode");
@@ -823,15 +884,6 @@ namespace MoviesApp.Migrations
                         .IsRequired();
 
                     b.Navigation("season");
-                });
-
-            modelBuilder.Entity("MoviesApp.Models.GuestStars", b =>
-                {
-                    b.HasOne("MoviesApp.Models.Episodes", "episode")
-                        .WithMany("guest_stars")
-                        .HasForeignKey("episodeidEpisode");
-
-                    b.Navigation("episode");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.LastEpisodeToAir", b =>
@@ -865,13 +917,6 @@ namespace MoviesApp.Migrations
                         .IsRequired();
 
                     b.Navigation("serie");
-                });
-
-            modelBuilder.Entity("MoviesApp.Models.Episodes", b =>
-                {
-                    b.Navigation("crew");
-
-                    b.Navigation("guest_stars");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.Seasons", b =>

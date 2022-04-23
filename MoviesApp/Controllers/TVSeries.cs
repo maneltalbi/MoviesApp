@@ -502,7 +502,7 @@ namespace MoviesApp.Controllers
 
                                     string responseDataEp = await responseEp.Content.ReadAsStringAsync();
 
-                                    var modelEp = JsonConvert.DeserializeObject<Episodes>(responseDataEp);
+                                    var modelEp = JsonConvert.DeserializeObject<ResultEpisode>(responseDataEp);
                                     List<Seasons> seasons = new List<Seasons>();
                                     seasons = _context.Seasons.ToList();
                                     int idseason = 0;
@@ -583,7 +583,38 @@ namespace MoviesApp.Controllers
 
                                             }
                                         }
-
+                                        int ide = 0;
+                                        List <Episodes> epi = new List<Episodes>();
+                                        epi = _context.Episodes.ToList();
+                                        foreach(var episo in epi)
+                                        {
+                                            if (episo.id == episode.id)
+                                            {
+                                                ide = episo.idEpisode;
+                                            }
+                                        }
+                                        foreach(var star in modelEp.guest_stars)
+                                        {
+                                            EpisodeStar es = new EpisodeStar();
+                                            GuestStars gs = new GuestStars();
+                                            gs.id = star.id;
+                                            gs.name = star.name;
+                                            gs.order = star.order;
+                                            gs.original_name = star.original_name;
+                                            gs.known_for_department = star.known_for_department;
+                                            gs.popularity = star.popularity;
+                                            gs.profile_path = star.profile_path;
+                                            gs.gender = star.gender;
+                                            gs.adult = star.adult;
+                                            gs.character = star.character;
+                                            gs.credit_id = star.credit_id;
+                                            _context.GuestStars.Add(gs);
+                                            _context.SaveChanges();
+                                            es.idEpisode = episode.id;
+                                            es.idStar = star.id;
+                                            _context.EpisodeStar.Add(es);
+                                            _context.SaveChanges();
+                                        }
 
 
                                     }
