@@ -2,7 +2,7 @@
 
 namespace MoviesApp.Migrations
 {
-    public partial class createDataBase : Migration
+    public partial class cretedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -247,6 +247,20 @@ namespace MoviesApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SeasonsImages", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeasonsStar",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idSeason = table.Column<int>(type: "int", nullable: false),
+                    idStar = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeasonsStar", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -516,6 +530,31 @@ namespace MoviesApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Crew",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idCrew = table.Column<int>(type: "int", nullable: false),
+                    credit_id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    departement = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    job = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    profile_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    idEpisode = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Crew", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Crew_Episodes_idEpisode",
+                        column: x => x.idEpisode,
+                        principalTable: "Episodes",
+                        principalColumn: "idEpisode",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GuestStars",
                 columns: table => new
                 {
@@ -532,50 +571,17 @@ namespace MoviesApp.Migrations
                     original_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     popularity = table.Column<double>(type: "float", nullable: false),
                     profile_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SeasonsidSeason = table.Column<int>(type: "int", nullable: true)
+                    idEpisode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GuestStars", x => x.idGuest);
                     table.ForeignKey(
-                        name: "FK_GuestStars_Seasons_SeasonsidSeason",
-                        column: x => x.SeasonsidSeason,
-                        principalTable: "Seasons",
-                        principalColumn: "idSeason",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Crew",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    idCrew = table.Column<int>(type: "int", nullable: false),
-                    credit_id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    departement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    job = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    profile_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    idEpisode = table.Column<int>(type: "int", nullable: false),
-                    episodeidEpisode = table.Column<int>(type: "int", nullable: true),
-                    SeasonsidSeason = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Crew", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Crew_Episodes_episodeidEpisode",
-                        column: x => x.episodeidEpisode,
+                        name: "FK_GuestStars_Episodes_idEpisode",
+                        column: x => x.idEpisode,
                         principalTable: "Episodes",
                         principalColumn: "idEpisode",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Crew_Seasons_SeasonsidSeason",
-                        column: x => x.SeasonsidSeason,
-                        principalTable: "Seasons",
-                        principalColumn: "idSeason",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -584,14 +590,9 @@ namespace MoviesApp.Migrations
                 column: "Seriesid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Crew_episodeidEpisode",
+                name: "IX_Crew_idEpisode",
                 table: "Crew",
-                column: "episodeidEpisode");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Crew_SeasonsidSeason",
-                table: "Crew",
-                column: "SeasonsidSeason");
+                column: "idEpisode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Episodes_idSeason",
@@ -599,9 +600,9 @@ namespace MoviesApp.Migrations
                 column: "idSeason");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuestStars_SeasonsidSeason",
+                name: "IX_GuestStars_idEpisode",
                 table: "GuestStars",
-                column: "SeasonsidSeason");
+                column: "idEpisode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LastEpisodeToAir_idSerie",
@@ -683,6 +684,9 @@ namespace MoviesApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "SeasonsImages");
+
+            migrationBuilder.DropTable(
+                name: "SeasonsStar");
 
             migrationBuilder.DropTable(
                 name: "SeriesImages");

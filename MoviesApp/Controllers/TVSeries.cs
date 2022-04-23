@@ -502,7 +502,7 @@ namespace MoviesApp.Controllers
 
                                     string responseDataEp = await responseEp.Content.ReadAsStringAsync();
 
-                                    var modelEp = JsonConvert.DeserializeObject<ResultEpisode>(responseDataEp);
+                                    var modelEp = JsonConvert.DeserializeObject<Episodes>(responseDataEp);
                                     List<Seasons> seasons = new List<Seasons>();
                                     seasons = _context.Seasons.ToList();
                                     int idseason = 0;
@@ -595,7 +595,6 @@ namespace MoviesApp.Controllers
                                         }
                                         foreach(var star in modelEp.guest_stars)
                                         {
-                                            EpisodeStar es = new EpisodeStar();
                                             GuestStars gs = new GuestStars();
                                             gs.id = star.id;
                                             gs.name = star.name;
@@ -608,12 +607,10 @@ namespace MoviesApp.Controllers
                                             gs.adult = star.adult;
                                             gs.character = star.character;
                                             gs.credit_id = star.credit_id;
+                                            gs.idEpisode = ide;
                                             _context.GuestStars.Add(gs);
                                             _context.SaveChanges();
-                                            es.idEpisode = episode.id;
-                                            es.idStar = star.id;
-                                            _context.EpisodeStar.Add(es);
-                                            _context.SaveChanges();
+                                            
                                         }
 
 

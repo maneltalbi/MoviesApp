@@ -21,8 +21,8 @@ namespace MoviesApp.Models
         public string still_path { get; set; }
         public double vote_average { get; set; }
         public int vote_count { get; set; }
-        //public List<Crew> crew { get; set; }
-       // public List<GuestStars> guest_stars { get; set; }
+        public List<Crew> crew { get; set; }
+       public List<GuestStars> guest_stars { get; set; }
 
         [ForeignKey("season")]
         public int idSeason { get; set; }

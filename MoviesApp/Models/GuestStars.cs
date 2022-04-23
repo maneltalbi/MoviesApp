@@ -22,7 +22,9 @@ namespace MoviesApp.Models
         public string original_name { get; set; }
         public double popularity { get; set; }
         public string profile_path { get; set; }
-        
+        [ForeignKey("episode")]
+        public int idEpisode { get; set; }
+        public Episodes episode { get; set; }
 
     }
 }

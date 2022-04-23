@@ -44,6 +44,7 @@ namespace MoviesApp.Data
         public DbSet<VideosSeasons> VideosSeasons { get; set; }
         public DbSet<EpisodesVideos> EpisodesVideos { get; set; }
         public DbSet<EpisodeStar> EpisodeStar { get; set; }
+        public DbSet<SeasonsStar> SeasonsStar { get; set; }
 
 
 
