@@ -23,6 +23,7 @@ namespace MoviesApp.Models
         //public string next_episode_to_air { get; set; }
         public List<ProductionCompanies> production_companies { get; set; }
         public List<Productioncountries> production_countries { get; set; }
+        public List<SpokenLanguages> spoken_languages { get; set; }
 
         public List<Networks> Networks { get; set; }
         public int number_of_episodes { get; set; }

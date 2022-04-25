@@ -11,6 +11,6 @@ namespace MoviesApp.Models
         [Key]
         public int id { get; set; }
         public int idSerie { get; set; }
-        public int idSpokenlgg { get; set; }
+        public string Spokenlgg { get; set; }
     }
 }

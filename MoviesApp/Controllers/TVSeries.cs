@@ -431,7 +431,42 @@ namespace MoviesApp.Controllers
                             _context.ProCompSeries.Add(prodcompserie);
                             _context.SaveChanges();
                         }
+                        List<SpokenLanguages> splgge = new List<SpokenLanguages>();
+                        splgge = _context.SpokenLanguages.ToList();
+                        int countspllge = 0;
+                        if (serie.spoken_languages != null) { 
+                        foreach (var spokenlgge in serie.spoken_languages)
+                        {
+                            SpokenLggSeries slgges = new SpokenLggSeries();
 
+                            foreach (var spkndb in splgge)
+                                {
+                                    if (spkndb.name == spokenlgge.name)
+                                    {
+                                    countspllge = countspllge + 1;
+                                    }
+                                }
+                            if (countspllge == 0) { 
+                            SpokenLanguages spknlgge = new SpokenLanguages();
+                            spknlgge.name = spokenlgge.name;
+                            spknlgge.english_name = spokenlgge.english_name;
+                            spknlgge.iso_639_1 = spokenlgge.iso_639_1;
+                            _context.SpokenLanguages.Add(spknlgge);
+                            _context.SaveChanges();
+                            slgges.idSerie = serie.id;
+                            slgges.Spokenlgg = spokenlgge.name;
+                            _context.SpokenLggSeries.Add(slgges);
+                            _context.SaveChanges();
+                            }
+                            else
+                            {
+                                slgges.idSerie = serie.id;
+                                slgges.Spokenlgg = spokenlgge.name;
+                                _context.SpokenLggSeries.Add(slgges);
+                                _context.SaveChanges();
+                            }
+                        }
+                        }
                         foreach (var season in serie.Seasons)
                     {
                         using (var responseSeason = await httpClient.GetAsync("tv/" + serie.id + "/season/" + season.season_number + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
@@ -642,7 +677,7 @@ namespace MoviesApp.Controllers
                                         foreach (var crew in modelEp.crew)
                                         {
                                             Crew crw = new Crew();
-                                            crw.id = crew.id;
+                                            crw.idCrew = crew.id;
                                             crw.name = crew.name;
                                             crw.credit_id = crew.credit_id;
                                             crw.departement = crew.departement;
