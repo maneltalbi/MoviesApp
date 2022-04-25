@@ -1,0 +1,47 @@
+﻿@model MoviesApp.Models.Movies
+<div class="all-comments">
+						<div class="all-comments-info">
+							<a href="#">Movie</a>
+							<div class="agile-info-wthree-box">
+                                <form asp-action="Create">
+                                    <label asp-for="original_title">Title:</label> <br />
+                                    <input asp-for="original_title" type="text" value="@ViewBag.movie.title"> <br />
+                                    <label asp-for="release_date" align="left">Release:</label> <br />
+                                    <input asp-for="release_date" type="text" value="@ViewBag.movie.release_date"> <br />
+                                    <label asp-for="overview" align="left">Overview:</label> <br />
+                                    <input asp-for="overview" type="text" value="@ViewBag.movie.overview"> <br />
+                                    <label asp-for="popularty" align="left">Popularity:</label> <br />
+                                    <input asp-for="popularty" type="text" value="@ViewBag.movie.popularity"> <br />
+                                    <label asp-for="video" align="left">Video:</label> <br />
+
+                                    <input asp-for="video" type="text" value="@ViewBag.videolink"> <br /> <br />
+
+                                    <label asp-for="vote_average" align="left">Vote Average:</label> <br />
+                                    <input asp-for="vote_average" type="text" value="@ViewBag.movie.vote_count"> <br />
+                                    <label asp-for="vote_count" align="left">Vote Count:</label> <br />
+                                    <input asp-for="vote_count" type="text" value="@ViewBag.movie.vote_count"> <br />
+                                    <label asp-for="poster_path" align="left">Poster:</label> <br />
+                                    <input asp-for="poster_path" type="text" value="@ViewBag.poster"> <br />
+                                    @*<label asp-for="genres" align="left">Genre:</label> <br />
+        <input asp-for="genres" type="text" value="@ViewBag.moviegenre"> <br />*@
+                                    <label asp-for="id" align="left">ID:</label> <br />
+                                    <input asp-for="id" type="text" value="@ViewBag.movie.id"> <br />
+                                    <label asp-for="backdrop_path" align="left">Backdrop Path:</label> <br />
+                                    <input asp-for="backdrop_path" type="text" value="@ViewBag.backdrop_path"> <br />
+                                    <label asp-for="adult" align="left">Adult:</label> <br />
+                                    <input asp-for="adult" type="text" value="@ViewBag.movie.adult"> <br />
+                                    <label asp-for="original_language" align="left">Original Language:</label> <br />
+                                    <input asp-for="original_language" type="text" value="@ViewBag.movie.original_language"> <br />
+                                    <label asp-for="original_title" align="left">Original Title:</label> <br />
+                                    <input asp-for="original_title" type="text" value="@ViewBag.movie.original_title"> <br />
+
+
+                                    <input type="submit" value="Save">
+
+                                    <a asp-action="Index" class="btn btn-inverse">Back to List</a>
+                                    <div class="clearfix"> </div>
+                                </form>
+							</div>
+						</div>
+				
+					</div>

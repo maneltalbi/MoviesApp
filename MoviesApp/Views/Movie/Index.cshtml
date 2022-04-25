@@ -4,7 +4,7 @@
 
     
 
-        <form asp-controller="Movies" asp-action="Genres" align="center">
+        <form asp-controller="Movie" asp-action="Genres" align="center">
             <input type="text" name="YourProperty" placeholder="Search With Genre">
             <input type="submit" value="GO">
         </form>
@@ -27,11 +27,11 @@
                         </a>
                         <div class="mid-1 agileits_w3layouts_mid_1_home">
                             <div class="w3l-movie-text">
-                                <h6><a href="Movies/Details">@movie.original_title</a></h6>
+                                <h6><a href="Movie/Details">@movie.original_title</a></h6>
                             </div>
                             <div class="mid-2 agile_mid_2_home">
-                                <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-success">Know More</a>
-                                <a asp-action="Create" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-success">Save Info</a>
+                                <a asp-action="Details" asp-controller="Movie" asp-route-id="@movie.id" class="btn btn-success">Know More</a>
+                                <a asp-action="Create" asp-controller="Movie" asp-route-id="@movie.id" class="btn btn-success">Save Info</a>
 
                                 <div class="block-stars">
 

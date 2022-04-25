@@ -2,7 +2,7 @@
 
 namespace MoviesApp.Migrations
 {
-    public partial class cretedb : Migration
+    public partial class createDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -114,25 +114,31 @@ namespace MoviesApp.Migrations
                 name: "Movies",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    idMovie = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     adult = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     backdrop_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    idMovie = table.Column<int>(type: "int", nullable: false),
+                    budget = table.Column<int>(type: "int", nullable: false),
+                    homepage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    id = table.Column<int>(type: "int", nullable: false),
+                    imdb_id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    original_language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     original_title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    popularity = table.Column<double>(type: "float", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Released = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    imdbVotes = table.Column<double>(type: "float", nullable: false),
-                    imdbRating = table.Column<int>(type: "int", nullable: false),
-                    videos = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Overview = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    original_language = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    overview = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    popularty = table.Column<double>(type: "float", nullable: false),
+                    poster_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    release_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    revenue = table.Column<int>(type: "int", nullable: false),
+                    runtime = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    tagline = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    video = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    vote_average = table.Column<double>(type: "float", nullable: false),
+                    vote_count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.id);
+                    table.PrimaryKey("PK_Movies", x => x.idMovie);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +204,7 @@ namespace MoviesApp.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idSerie = table.Column<int>(type: "int", nullable: false),
-                    ProdCountrie = table.Column<int>(type: "int", nullable: false)
+                    ProdCountrie = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,30 +215,30 @@ namespace MoviesApp.Migrations
                 name: "ProductionCompanies",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    idProdCompany = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    idProdCompany = table.Column<int>(type: "int", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false),
                     logo_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     origin_country = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductionCompanies", x => x.id);
+                    table.PrimaryKey("PK_ProductionCompanies", x => x.idProdCompany);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Productioncountries",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    idProdCountry = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     iso_3166_1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Productioncountries", x => x.id);
+                    table.PrimaryKey("PK_Productioncountries", x => x.idProdCountry);
                 });
 
             migrationBuilder.CreateTable(
@@ -346,7 +352,7 @@ namespace MoviesApp.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idSerie = table.Column<int>(type: "int", nullable: false),
-                    idSpokenlgg = table.Column<int>(type: "int", nullable: false)
+                    Spokenlgg = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -398,6 +404,30 @@ namespace MoviesApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VideosSeries", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Collections",
+                columns: table => new
+                {
+                    idCol = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    overview = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    poster_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    backdrop_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MoviesidMovie = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collections", x => x.idCol);
+                    table.ForeignKey(
+                        name: "FK_Collections_Movies_MoviesidMovie",
+                        column: x => x.MoviesidMovie,
+                        principalTable: "Movies",
+                        principalColumn: "idMovie",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -501,6 +531,38 @@ namespace MoviesApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "parts",
+                columns: table => new
+                {
+                    idPart = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    adult = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    backdrop_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    id = table.Column<int>(type: "int", nullable: false),
+                    original_language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    original_title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    overview = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    release_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    poster_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    popularity = table.Column<double>(type: "float", nullable: false),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    video = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    vote_average = table.Column<double>(type: "float", nullable: false),
+                    vote_count = table.Column<int>(type: "int", nullable: false),
+                    CollectionsidCol = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_parts", x => x.idPart);
+                    table.ForeignKey(
+                        name: "FK_parts_Collections_CollectionsidCol",
+                        column: x => x.CollectionsidCol,
+                        principalTable: "Collections",
+                        principalColumn: "idCol",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Episodes",
                 columns: table => new
                 {
@@ -533,9 +595,9 @@ namespace MoviesApp.Migrations
                 name: "Crew",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    idCrew = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    idCrew = table.Column<int>(type: "int", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false),
                     credit_id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     departement = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -545,7 +607,7 @@ namespace MoviesApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Crew", x => x.id);
+                    table.PrimaryKey("PK_Crew", x => x.idCrew);
                     table.ForeignKey(
                         name: "FK_Crew_Episodes_idEpisode",
                         column: x => x.idEpisode,
@@ -585,6 +647,11 @@ namespace MoviesApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Collections_MoviesidMovie",
+                table: "Collections",
+                column: "MoviesidMovie");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Createurs_Seriesid",
                 table: "Createurs",
                 column: "Seriesid");
@@ -613,6 +680,11 @@ namespace MoviesApp.Migrations
                 name: "IX_Networks_idSerie",
                 table: "Networks",
                 column: "idSerie");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_parts_CollectionsidCol",
+                table: "parts",
+                column: "CollectionsidCol");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seasons_idSerie",
@@ -656,13 +728,13 @@ namespace MoviesApp.Migrations
                 name: "LastEpisodeToAir");
 
             migrationBuilder.DropTable(
-                name: "Movies");
-
-            migrationBuilder.DropTable(
                 name: "MoviesImages");
 
             migrationBuilder.DropTable(
                 name: "Networks");
+
+            migrationBuilder.DropTable(
+                name: "parts");
 
             migrationBuilder.DropTable(
                 name: "ProCompMovies");
@@ -713,7 +785,13 @@ namespace MoviesApp.Migrations
                 name: "Episodes");
 
             migrationBuilder.DropTable(
+                name: "Collections");
+
+            migrationBuilder.DropTable(
                 name: "Seasons");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "Series");

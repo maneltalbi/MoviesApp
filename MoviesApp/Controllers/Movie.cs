@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Controllers
 {
-    public class Movies : Controller
+    public class Movie : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public Movies(ApplicationDbContext context)
+        public Movie(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -275,15 +275,87 @@ namespace MoviesApp.Controllers
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes,genres,idMovie,backdrop_path,adult,original_language,original_title,popularity,videos")] Models.Movies movie)
+        public async Task<ActionResult> CreateAsync([Bind("Title,Released,Overview,Poster,imdbRating,imdbVotes,genres,id,backdrop_path,adult,original_language,original_title,popularity,videos")] Models.Movies movie)
         {
-            if (ModelState.IsValid)
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
             {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+                using (var response = await httpClient.GetAsync("movie/" + movie.id + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                {
+
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var movie1 = JsonConvert.DeserializeObject<ListMovies>(responseData);
+                    int idf = 0;
+                    List<Movies> movies = new List<Movies>();
+                    movies = _context.Movies.ToList();
+                    foreach (var moviedb in movies)
+                    {
+                        if (movie1.id == moviedb.id)
+                        {
+                            idf = moviedb.idMovie;
+                        }
+                    }
+                    int count = 0;
+                    foreach (var movi in movies)
+                    {
+                        if (movie1.id == movi.id)
+                        {
+                            count = count + 1;
+
+
+
+                        }
+
+                    }
+                    if (count == 0)
+                    {
+                        ViewData["errors"] = "";
+                        Movies moviedb = new Movies();
+                        moviedb.adult = movie1.adult;
+                        moviedb.backdrop_path = movie1.backdrop_path;
+                        moviedb.budget = movie1.budget;
+                        moviedb.homepage = movie1.homepage;
+                        moviedb.id = movie1.id;
+                        moviedb.imdb_id = movie1.imdb_id;
+                        moviedb.original_language = movie1.original_language;
+                        moviedb.original_title = movie1.original_title;
+                        moviedb.overview = movie1.overview;
+                        moviedb.popularty = movie1.popularty;
+                        moviedb.poster_path = movie1.poster_path;
+                        moviedb.release_date = movie1.release_date;
+                        moviedb.revenue = movie1.revenue;
+                        moviedb.runtime = movie1.runtime;
+                        moviedb.status = movie1.status;
+                        moviedb.tagline = movie1.tagline;
+                        moviedb.video = movie1.video;
+                        moviedb.vote_average = movie1.vote_average;
+                        moviedb.vote_count = movie1.vote_count;
+                        _context.Movies.Add(moviedb);
+                        _context.SaveChanges();
+
+
+                    }
+                    else
+                    {
+                        ViewData["errors"] = "Movie already exist";
+
+                    }
+
+
+
+
+
+
+
+                }
             }
-            return View(movie);
+                    return View(movie);
             
         }
         // SearchMovie method
