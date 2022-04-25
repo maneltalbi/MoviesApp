@@ -338,6 +338,36 @@ namespace MoviesApp.Controllers
                         moviedb.vote_count = movie1.vote_count;
                         _context.Movies.Add(moviedb);
                         _context.SaveChanges();
+                        using (var responsev = await httpClient.GetAsync("movie/" + movie1.id + "/videos?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                            string responseDatav = await responsev.Content.ReadAsStringAsync();
+
+                            var modelv = JsonConvert.DeserializeObject<listVideos>(responseDatav);
+                            //  _context.Series.Add(serie);
+                            //_context.SaveChanges();
+
+                            foreach (var video in modelv.results)
+                            {
+                                VideosMovies vidmov = new VideosMovies();
+
+                                video.id.ToString();
+                                video.name.ToString();
+                                video.published_at.ToString();
+                                video.site.ToString();
+                                video.size.ToString();
+                                video.type.ToString();
+                                video.key.ToString();
+                                _context.videos.Add(video);
+                                _context.SaveChanges();
+                                vidmov.idMovie = movie1.id;
+                                vidmov.idVideo = video.id.ToString();
+                                _context.VideosMovies.Add(vidmov);
+                                _context.SaveChanges();
+
+                            }
+                        }
 
 
                     }
