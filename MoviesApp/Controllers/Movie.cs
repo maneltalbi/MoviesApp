@@ -369,6 +369,50 @@ namespace MoviesApp.Controllers
                             }
                         }
 
+                        List<Genres> Genres = new List<Genres>();
+                        Genres = _context.Genres.ToList();
+                        int countg = 0;
+                        // foreach (var genre in modelG.genres)
+                        //{
+                        foreach (var genre in movie1.genres)
+                        {
+                            foreach (var genreb in Genres)
+                            {
+                                if (genreb.id == genre.id)
+                                {
+                                    countg = countg + 1;
+                                }
+                            }
+
+                            if (countg == 0)
+                            {
+                                genre.id.ToString();
+                                genre.name.ToString();
+                                _context.Genres.Add(genre);
+                                _context.SaveChanges();
+                                GenresMovies genremovie = new GenresMovies();
+                                genremovie.idGenre = genre.id;
+                                genremovie.idMovie = movie1.id;
+                                _context.GenresMovies.Add(genremovie);
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                GenresMovies genremovie = new GenresMovies();
+                                genremovie.idGenre = genre.id;
+                                genremovie.idMovie = movie1.id;
+                                _context.GenresMovies.Add(genremovie);
+                                _context.SaveChanges();
+                            }
+
+
+                        }
+
+
+
+
+
+
 
                     }
                     else
