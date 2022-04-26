@@ -478,7 +478,34 @@ namespace MoviesApp.Controllers
 
                             }
                         }
-
+                        foreach (var prodcountrie in movie1.production_countries)
+                        {
+                            ProdCountrieMovies prodcountmovie = new ProdCountrieMovies();
+                            Productioncountries prodcount = new Productioncountries();
+                            prodcount.iso_3166_1 = prodcountrie.iso_3166_1;
+                            prodcount.name = prodcountrie.name;
+                            _context.Productioncountries.Add(prodcount);
+                            _context.SaveChanges();
+                            prodcountmovie.idMovie = movie1.id;
+                            prodcountmovie.ProdCountrie = prodcountrie.name;
+                            _context.ProdCountrieMovies.Add(prodcountmovie);
+                            _context.SaveChanges();
+                        }
+                        foreach (var prodcompany in movie1.production_companies)
+                        {
+                             ProCompMovies procompmovie = new ProCompMovies();
+                            ProductionCompanies prodcomp = new ProductionCompanies();
+                            prodcomp.logo_path = prodcompany.logo_path;
+                            prodcomp.name = prodcompany.name;
+                            prodcomp.origin_country = prodcompany.origin_country;
+                            prodcomp.id = prodcompany.id;
+                            _context.ProductionCompanies.Add(prodcomp);
+                            _context.SaveChanges();
+                            procompmovie.idMovie = movie1.id;
+                            procompmovie.ProdCompanie = prodcompany.id;
+                            _context.ProCompMovies.Add(procompmovie);
+                            _context.SaveChanges();
+                        }
 
 
 
