@@ -506,7 +506,44 @@ namespace MoviesApp.Controllers
                             _context.ProCompMovies.Add(procompmovie);
                             _context.SaveChanges();
                         }
+                        List<SpokenLanguages> splgge = new List<SpokenLanguages>();
+                        splgge = _context.SpokenLanguages.ToList();
+                        int countspllge = 0;
+                        if (movie1.spoken_languages != null)
+                        {
+                            foreach (var spokenlgge in movie1.spoken_languages)
+                            {
+                                SpokenLggMovies slggem = new SpokenLggMovies();
 
+                                foreach (var spkndb in splgge)
+                                {
+                                    if (spkndb.name == spokenlgge.name)
+                                    {
+                                        countspllge = countspllge + 1;
+                                    }
+                                }
+                                if (countspllge == 0)
+                                {
+                                    SpokenLanguages spknlgge = new SpokenLanguages();
+                                    spknlgge.name = spokenlgge.name;
+                                    spknlgge.english_name = spokenlgge.english_name;
+                                    spknlgge.iso_639_1 = spokenlgge.iso_639_1;
+                                    _context.SpokenLanguages.Add(spknlgge);
+                                    _context.SaveChanges();
+                                    slggem.idMovie = movie1.id;
+                                    slggem.Spokenlgg = spokenlgge.name;
+                                    _context.SpokenLggMovies.Add(slggem);
+                                    _context.SaveChanges();
+                                }
+                                else
+                                {
+                                    slggem.idMovie = movie1.id;
+                                    slggem.Spokenlgg = spokenlgge.name;
+                                    _context.SpokenLggMovies.Add(slggem);
+                                    _context.SaveChanges();
+                                }
+                            }
+                        }
 
 
 
