@@ -407,7 +407,77 @@ namespace MoviesApp.Controllers
 
 
                         }
+                        using (var responseimg = await httpClient.GetAsync("movie/" + movie1.id + "/images?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                        {
+                            // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
 
+                            string responseDataimg = await responseimg.Content.ReadAsStringAsync();
+                            var modelimg = JsonConvert.DeserializeObject<ResultImg>(responseDataimg);
+
+                            foreach (var poster in modelimg.posters)
+                            {
+                                MoviesImages movieimg = new MoviesImages();
+
+                                Images img = new Images();
+                                img.idImage = modelimg.id;
+                                img.aspect_ratio = poster.aspect_ratio;
+                                img.file_path = poster.file_path;
+                                img.height = poster.height;
+                                img.iso_639_1 = poster.iso_639_1;
+                                img.vote_average = poster.vote_average;
+                                img.vote_count = poster.vote_count;
+                                img.width = poster.width;
+                                _context.Images.Add(img);
+                                _context.SaveChanges();
+                                movieimg.IdImg = modelimg.id;
+                                movieimg.IdMovie = movie1.id;
+                                _context.MoviesImages.Add(movieimg);
+                                _context.SaveChanges();
+
+                            }
+                            foreach (var backdrop in modelimg.backdrops)
+                            {
+                                MoviesImages movieimg1 = new MoviesImages();
+
+                                Images img1 = new Images();
+                                img1.idImage = modelimg.id;
+                                img1.aspect_ratio = backdrop.aspect_ratio;
+                                img1.file_path = backdrop.file_path;
+                                img1.height = backdrop.height;
+                                img1.iso_639_1 = backdrop.iso_639_1;
+                                img1.vote_average = backdrop.vote_average;
+                                img1.vote_count = backdrop.vote_count;
+                                img1.width = backdrop.width;
+                                _context.Images.Add(img1);
+                                _context.SaveChanges();
+                                movieimg1.IdImg = modelimg.id;
+                                movieimg1.IdMovie = movie1.id;
+                                _context.MoviesImages.Add(movieimg1);
+                                _context.SaveChanges();
+
+                            }
+                            foreach (var logo in modelimg.logos)
+                            {
+                                MoviesImages movieimg2 = new MoviesImages();
+
+                                Images img2 = new Images();
+                                img2.idImage = modelimg.id;
+                                img2.aspect_ratio = logo.aspect_ratio;
+                                img2.file_path = logo.file_path;
+                                img2.height = logo.height;
+                                img2.iso_639_1 = logo.iso_639_1;
+                                img2.vote_average = logo.vote_average;
+                                img2.vote_count = logo.vote_count;
+                                img2.width = logo.width;
+                                _context.Images.Add(img2);
+                                _context.SaveChanges();
+                                movieimg2.IdImg = modelimg.id;
+                                movieimg2.IdMovie = movie1.id;
+                                _context.MoviesImages.Add(movieimg2);
+                                _context.SaveChanges();
+
+                            }
+                        }
 
 
 

@@ -12,6 +12,7 @@ namespace MoviesApp.Models
 
         public List<backdrops> backdrops { get; set; }
         public List<stills> stills { get; set; }
+        public List<backdrops> logos { get; set; }
 
 
     }
