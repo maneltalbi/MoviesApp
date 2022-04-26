@@ -10,7 +10,7 @@ namespace MoviesApp.Models
     {
         [Key]
         public int idMovie { get; set; }
-       // public List<Collections> belongs_to_collection { get; set; }
+        public List<Collections> belongs_to_collection { get; set; }
         public string adult { get; set; }
         public string backdrop_path { get; set; }
         public int budget { get; set; }

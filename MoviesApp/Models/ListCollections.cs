@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Models
 {
-    public class Collections
+    public class ListCollections
     {
         [Key]
         public int idCol { get; set; }
@@ -16,10 +16,8 @@ namespace MoviesApp.Models
         public string overview { get; set; }
         public string poster_path { get; set; }
         public string backdrop_path { get; set; }
-        public List<parts> parts { get; set; }
-        [ForeignKey("movie")]
-        public int idMovie { get; set; }
-        public Movies movie { get; set; }
+        public List<Listparts> parts { get; set; }
+        
 
     }
 }

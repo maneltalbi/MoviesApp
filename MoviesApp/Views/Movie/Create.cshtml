@@ -4,8 +4,8 @@
 							<a href="#">Movie</a>
 							<div class="agile-info-wthree-box">
                                 <form asp-action="Create">
-                                    <label asp-for="original_title">Title:</label> <br />
-                                    <input asp-for="original_title" type="text" value="@ViewBag.movie.title"> <br />
+                                    <label asp-for="original_title" align="left">Original Title:</label> <br />
+                                    <input asp-for="original_title" type="text" value="@ViewBag.movie.original_title"> <br />
                                     <label asp-for="release_date" align="left">Release:</label> <br />
                                     <input asp-for="release_date" type="text" value="@ViewBag.movie.release_date"> <br />
                                     <label asp-for="overview" align="left">Overview:</label> <br />
@@ -32,8 +32,6 @@
                                     <input asp-for="adult" type="text" value="@ViewBag.movie.adult"> <br />
                                     <label asp-for="original_language" align="left">Original Language:</label> <br />
                                     <input asp-for="original_language" type="text" value="@ViewBag.movie.original_language"> <br />
-                                    <label asp-for="original_title" align="left">Original Title:</label> <br />
-                                    <input asp-for="original_title" type="text" value="@ViewBag.movie.original_title"> <br />
 
 
                                     <input type="submit" value="Save">

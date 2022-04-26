@@ -7,8 +7,7 @@ namespace MoviesApp.Models
 {
     public class ListMovies
     {
-        //public List<Collections> belongs_to_collection { get; set; }
-        //public object[] belongs_to_collection = new Object[4];
+        public Collections belongs_to_collection { get; set; }
         public string adult { get; set; }
         public string backdrop_path { get; set; }
         public int budget { get; set; }

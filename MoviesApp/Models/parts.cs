@@ -26,6 +26,6 @@ namespace MoviesApp.Models
         public int vote_count { get; set; }
         [ForeignKey("collection")]
         public int idCol { get; set; }
-        public Episodes collection { get; set; }
+        public Collections collection { get; set; }
     }
 }

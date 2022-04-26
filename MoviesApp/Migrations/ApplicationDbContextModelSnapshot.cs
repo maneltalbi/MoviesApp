@@ -37,6 +37,9 @@ namespace MoviesApp.Migrations
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("overview")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("poster_path")
                         .HasColumnType("nvarchar(max)");
 
@@ -558,8 +561,8 @@ namespace MoviesApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProdCountrie")
-                        .HasColumnType("int");
+                    b.Property<string>("ProdCountrie")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("idMovie")
                         .HasColumnType("int");
@@ -821,10 +824,10 @@ namespace MoviesApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("idMovie")
-                        .HasColumnType("int");
+                    b.Property<string>("Spokenlgg")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idSpokenlgg")
+                    b.Property<int>("idMovie")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -995,8 +998,8 @@ namespace MoviesApp.Migrations
 
             modelBuilder.Entity("MoviesApp.Models.Collections", b =>
                 {
-                    b.HasOne("MoviesApp.Models.Episodes", "movie")
-                        .WithMany()
+                    b.HasOne("MoviesApp.Models.Movies", "movie")
+                        .WithMany("belongs_to_collection")
                         .HasForeignKey("idMovie")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1083,8 +1086,8 @@ namespace MoviesApp.Migrations
 
             modelBuilder.Entity("MoviesApp.Models.parts", b =>
                 {
-                    b.HasOne("MoviesApp.Models.Episodes", "collection")
-                        .WithMany()
+                    b.HasOne("MoviesApp.Models.Collections", "collection")
+                        .WithMany("parts")
                         .HasForeignKey("idCol")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1092,11 +1095,21 @@ namespace MoviesApp.Migrations
                     b.Navigation("collection");
                 });
 
+            modelBuilder.Entity("MoviesApp.Models.Collections", b =>
+                {
+                    b.Navigation("parts");
+                });
+
             modelBuilder.Entity("MoviesApp.Models.Episodes", b =>
                 {
                     b.Navigation("crew");
 
                     b.Navigation("guest_stars");
+                });
+
+            modelBuilder.Entity("MoviesApp.Models.Movies", b =>
+                {
+                    b.Navigation("belongs_to_collection");
                 });
 
             modelBuilder.Entity("MoviesApp.Models.Seasons", b =>

@@ -2,7 +2,7 @@
 
 namespace MoviesApp.Migrations
 {
-    public partial class createDB : Migration
+    public partial class createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,7 +190,7 @@ namespace MoviesApp.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idMovie = table.Column<int>(type: "int", nullable: false),
-                    ProdCountrie = table.Column<int>(type: "int", nullable: false)
+                    ProdCountrie = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -338,7 +338,7 @@ namespace MoviesApp.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idMovie = table.Column<int>(type: "int", nullable: false),
-                    idSpokenlgg = table.Column<int>(type: "int", nullable: false)
+                    Spokenlgg = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -376,6 +376,20 @@ namespace MoviesApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_videos", x => x.idVideo);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VideosMovies",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idMovie = table.Column<int>(type: "int", nullable: false),
+                    idVideo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VideosMovies", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -417,17 +431,17 @@ namespace MoviesApp.Migrations
                     overview = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     poster_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     backdrop_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MoviesidMovie = table.Column<int>(type: "int", nullable: true)
+                    idMovie = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Collections", x => x.idCol);
                     table.ForeignKey(
-                        name: "FK_Collections_Movies_MoviesidMovie",
-                        column: x => x.MoviesidMovie,
+                        name: "FK_Collections_Movies_idMovie",
+                        column: x => x.idMovie,
                         principalTable: "Movies",
                         principalColumn: "idMovie",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -549,17 +563,17 @@ namespace MoviesApp.Migrations
                     video = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     vote_average = table.Column<double>(type: "float", nullable: false),
                     vote_count = table.Column<int>(type: "int", nullable: false),
-                    CollectionsidCol = table.Column<int>(type: "int", nullable: true)
+                    idCol = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_parts", x => x.idPart);
                     table.ForeignKey(
-                        name: "FK_parts_Collections_CollectionsidCol",
-                        column: x => x.CollectionsidCol,
+                        name: "FK_parts_Collections_idCol",
+                        column: x => x.idCol,
                         principalTable: "Collections",
                         principalColumn: "idCol",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -647,9 +661,9 @@ namespace MoviesApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Collections_MoviesidMovie",
+                name: "IX_Collections_idMovie",
                 table: "Collections",
-                column: "MoviesidMovie");
+                column: "idMovie");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Createurs_Seriesid",
@@ -682,9 +696,9 @@ namespace MoviesApp.Migrations
                 column: "idSerie");
 
             migrationBuilder.CreateIndex(
-                name: "IX_parts_CollectionsidCol",
+                name: "IX_parts_idCol",
                 table: "parts",
-                column: "CollectionsidCol");
+                column: "idCol");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seasons_idSerie",
@@ -774,6 +788,9 @@ namespace MoviesApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "videos");
+
+            migrationBuilder.DropTable(
+                name: "VideosMovies");
 
             migrationBuilder.DropTable(
                 name: "VideosSeasons");

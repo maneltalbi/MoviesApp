@@ -506,6 +506,16 @@ namespace MoviesApp.Controllers
                             _context.ProCompMovies.Add(procompmovie);
                             _context.SaveChanges();
                         }
+                        int idmov = 0;
+                        List<Movies> movv = new List<Movies>();
+                        movv = _context.Movies.ToList();
+                        foreach(var mov in movv)
+                        {
+                            if (mov.id == movie1.id)
+                            {
+                                idmov = mov.idMovie;
+                            }
+                        }
                         List<SpokenLanguages> splgge = new List<SpokenLanguages>();
                         splgge = _context.SpokenLanguages.ToList();
                         int countspllge = 0;
@@ -545,8 +555,60 @@ namespace MoviesApp.Controllers
                             }
                         }
 
+                        if (movie1.belongs_to_collection != null)
+                        {
+                           
+                           
+                            using (var responsecol = await httpClient.GetAsync("collection/" + movie1.belongs_to_collection.id + "?api_key=e713d6b21cffe24a1f790d41f6e8f4a3"))
+                            {
+                                // const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+
+                                string responseDatacol= await responsecol.Content.ReadAsStringAsync();
+                                var modelcol = JsonConvert.DeserializeObject<ListCollections>(responseDatacol);
+
+                                Collections col = new Collections();
+                                col.id = modelcol.id;
+                                col.name = modelcol.name;
+                                col.poster_path = modelcol.poster_path;
+                                col.idMovie = idmov;
+                                col.backdrop_path = modelcol.backdrop_path;
+                                col.overview = modelcol.overview;
+                                _context.Collections.Add(col);
+                                _context.SaveChanges();
+                               List <Collections>  coll = new List <Collections>();
+                                coll = _context.Collections.ToList();
+                                int idco = 0;
+                                foreach(var co in coll)
+                                {
+                                    if(co.id== modelcol.id)
+                                    {
+                                        idco = co.idCol;
+                                    }
+                                }
+                                foreach(var part in modelcol.parts)
+                                {
+                                    parts par = new parts();
+                                    par.adult = part.adult;
+                                    par.backdrop_path = part.backdrop_path;
+                                    par.original_language = part.original_language;
+                                    par.original_title = part.original_title;
+                                    par.overview = part.overview;
+                                    par.release_date = part.release_date;
+                                    par.poster_path = part.poster_path;
+                                    par.popularity = part.popularity;
+                                    par.title = part.title;
+                                    par.video = part.video;
+                                    par.vote_average = part.vote_average;
+                                    par.vote_count = part.vote_count;
+                                    par.idCol = idco;
+                                    _context.parts.Add(par);
+                                    _context.SaveChanges();
 
 
+
+                                }
+                            }
+                        }
 
                     }
                     else
