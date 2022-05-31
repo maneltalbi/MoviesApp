@@ -617,14 +617,14 @@ namespace MoviesApp.Migrations
                     departement = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     job = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     profile_path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    idEpisode = table.Column<int>(type: "int", nullable: false)
+                    idEp = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Crew", x => x.idCrew);
                     table.ForeignKey(
-                        name: "FK_Crew_Episodes_idEpisode",
-                        column: x => x.idEpisode,
+                        name: "FK_Crew_Episodes_idEp",
+                        column: x => x.idEp,
                         principalTable: "Episodes",
                         principalColumn: "idEpisode",
                         onDelete: ReferentialAction.Cascade);
@@ -671,9 +671,9 @@ namespace MoviesApp.Migrations
                 column: "Seriesid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Crew_idEpisode",
+                name: "IX_Crew_idEp",
                 table: "Crew",
-                column: "idEpisode");
+                column: "idEp");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Episodes_idSeason",

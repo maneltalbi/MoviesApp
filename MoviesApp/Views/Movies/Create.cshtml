@@ -1,4 +1,4 @@
-﻿@model MoviesApp.Models.Movies
+﻿@model MoviesApp.Models.Movie
 <div class="all-comments">
 						<div class="all-comments-info">
 							<a href="#">Movie</a>
@@ -24,8 +24,8 @@
                                     <input asp-for="poster_path" type="text" value="@ViewBag.poster"> <br />
                                     @*<label asp-for="genres" align="left">Genre:</label> <br />
         <input asp-for="genres" type="text" value="@ViewBag.moviegenre"> <br />*@
-                                    <label asp-for="id" align="left">ID:</label> <br />
-                                    <input asp-for="id" type="text" value="@ViewBag.movie.id"> <br />
+                                    <label asp-for="idMovie" align="left">ID:</label> <br />
+                                    <input asp-for="idMovie" type="text" value="@ViewBag.movie.id"> <br />
                                     <label asp-for="backdrop_path" align="left">Backdrop Path:</label> <br />
                                     <input asp-for="backdrop_path" type="text" value="@ViewBag.backdrop_path"> <br />
                                     <label asp-for="adult" align="left">Adult:</label> <br />

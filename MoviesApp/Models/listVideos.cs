@@ -11,11 +11,8 @@ namespace MoviesApp.Models
     {
      
         public int id { get; set; }
-        public List<videos> results { get; set; }
-        [ForeignKey("serie")]
-        public int idSerie { get; set; }
-        public Series serie { get; set; }
-
+        public List<Videos> results { get; set; }
+       
 
 
 

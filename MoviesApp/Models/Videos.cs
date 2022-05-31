@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Models
 {
-    public class videos
+    public class Videos
     {
-      [Key]
-        public int idVideo { get; set; }
+     
+        public int idMovie { get; set; }
         public string id { get; set; }
-       public string name { get; set; }
+        public string name { get; set; }
         public string site { get; set; }
         public string key { get; set; }
         public string type { get; set; }

@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace MoviesApp.Models
 {
-    public class Movies
+    public class MyMovie
     {
-        [Key]
         public int idMovie { get; set; }
         public List<Collections> belongs_to_collection { get; set; }
         public string adult { get; set; }
         public string backdrop_path { get; set; }
         public int budget { get; set; }
         public string homepage { get; set; }
-        public int id { get; set; }
+     
         public string imdb_id { get; set; }
         public string original_language { get; set; }
         public string original_title { get; set; }

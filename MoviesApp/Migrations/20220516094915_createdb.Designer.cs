@@ -9,7 +9,7 @@ using MoviesApp.Data;
 namespace MoviesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220426131042_createdb")]
+    [Migration("20220516094915_createdb")]
     partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,7 +100,7 @@ namespace MoviesApp.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
-                    b.Property<int>("idEpisode")
+                    b.Property<int>("idEp")
                         .HasColumnType("int");
 
                     b.Property<string>("job")
@@ -114,7 +114,7 @@ namespace MoviesApp.Migrations
 
                     b.HasKey("idCrew");
 
-                    b.HasIndex("idEpisode");
+                    b.HasIndex("idEp");
 
                     b.ToTable("Crew");
                 });
@@ -1024,7 +1024,7 @@ namespace MoviesApp.Migrations
                 {
                     b.HasOne("MoviesApp.Models.Episodes", "episodec")
                         .WithMany("crew")
-                        .HasForeignKey("idEpisode")
+                        .HasForeignKey("idEp")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

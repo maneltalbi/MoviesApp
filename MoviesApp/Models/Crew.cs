@@ -18,7 +18,7 @@ namespace MoviesApp.Models
         public string job { get; set; }
         public string profile_path { get; set; }
         [ForeignKey("episodec")]
-        public int idEpisode { get; set; }
+        public int idEp { get; set; }
         public Episodes episodec { get; set; }
     }
 }

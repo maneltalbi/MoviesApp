@@ -9,7 +9,7 @@ namespace MoviesApp.Data
         {
 
         }
-        public DbSet<Movies> Movies { get; set; }
+        public DbSet<MyMovie> Movies { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Createurs> Createurs { get; set; }
         public DbSet<LastEpisodeToAir> LastEpisodeToAir { get; set; }
@@ -18,7 +18,7 @@ namespace MoviesApp.Data
         public DbSet<Productioncountries> Productioncountries { get; set; }
         public DbSet<Seasons> Seasons { get; set; }
         public DbSet<SpokenLanguages> SpokenLanguages { get; set; }
-        public DbSet<videos> videos { get; set; }
+        public DbSet<Videos> Videos { get; set; }
         public DbSet<VideosSeries> VideosSeries { get; set; }
 
         public DbSet<Genres> Genres { get; set; }
@@ -26,7 +26,6 @@ namespace MoviesApp.Data
         public DbSet<Crew> Crew { get; set; }
         public DbSet<GuestStars> GuestStars { get; set; }
         public DbSet<Images> Images { get; set; }
-        public DbSet<MoviesImages> MoviesImages { get; set; }
 
         public DbSet<SeriesImages> SeriesImages { get; set; }
 
@@ -35,9 +34,7 @@ namespace MoviesApp.Data
         public DbSet<GenresMovies> GenresMovies { get; set; }
 
         public DbSet<GenresSeries> GenresSeries { get; set; }
-        public DbSet<ProCompMovies> ProCompMovies { get; set; }
         public DbSet<ProdCountrieSeries> ProdCountrieSeries { get; set; }
-        public DbSet<ProdCountrieMovies> ProdCountrieMovies { get; set; }
         public DbSet<ProCompSeries> ProCompSeries { get; set; }
         public DbSet<SpokenLggMovies> SpokenLggMovies { get; set; }
         public DbSet<SpokenLggSeries> SpokenLggSeries { get; set; }

@@ -98,7 +98,7 @@ namespace MoviesApp.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
-                    b.Property<int>("idEpisode")
+                    b.Property<int>("idEp")
                         .HasColumnType("int");
 
                     b.Property<string>("job")
@@ -112,7 +112,7 @@ namespace MoviesApp.Migrations
 
                     b.HasKey("idCrew");
 
-                    b.HasIndex("idEpisode");
+                    b.HasIndex("idEp");
 
                     b.ToTable("Crew");
                 });
@@ -1022,7 +1022,7 @@ namespace MoviesApp.Migrations
                 {
                     b.HasOne("MoviesApp.Models.Episodes", "episodec")
                         .WithMany("crew")
-                        .HasForeignKey("idEpisode")
+                        .HasForeignKey("idEp")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

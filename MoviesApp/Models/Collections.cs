@@ -19,7 +19,7 @@ namespace MoviesApp.Models
         public List<parts> parts { get; set; }
         [ForeignKey("movie")]
         public int idMovie { get; set; }
-        public Movies movie { get; set; }
+        public MyMovie movie { get; set; }
 
     }
 }

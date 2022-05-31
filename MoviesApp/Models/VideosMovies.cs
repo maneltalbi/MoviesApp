@@ -8,9 +8,8 @@ namespace MoviesApp.Models
 {
     public class VideosMovies
     {
-        [Key]
         public int id { get; set; }
         public int idMovie { get; set; }
-        public string idVideo { get; set; }
+       
     }
 }

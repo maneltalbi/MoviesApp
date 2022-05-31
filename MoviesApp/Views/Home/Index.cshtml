@@ -1,4 +1,6 @@
-﻿<div id="slidey" style="display:none;">
+﻿
+
+<div id="slidey" style="display:none;">
     <ul>
         <li><img src="~/images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
         <li><img src="~/images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
@@ -10,16 +12,17 @@
 </div>
 <br />
 <br />
+
 <div id="myTabContent" class="tab-content">
     <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
         <div class="w3_agile_featured_movies">
             @foreach (var movie in ViewBag.results)
             {
-               // var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
+               var poster_Uri = String.Format("http://image.tmdb.org/t/p/w500/{0}", movie.poster_path);
 
                 <div class="col-md-2 w3l-movie-gride-agile">
                     <a asp-action="Movies/Save" asp-controller="Movies" asp-route-id="@movie.id" class="hvr-shutter-out-horizontal">
-                        @* <img src="@poster_Uri" title="album-name" class="img-responsive" alt=" ">*@
+                        <img src="@poster_Uri" title="album-name" class="img-responsive" alt=" ">
                         <div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
                     </a>
                     <div class="mid-1 agileits_w3layouts_mid_1_home">
